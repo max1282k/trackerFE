@@ -57,6 +57,7 @@ const AdminNavbar = (props) => {
                 <DropdownItem
                   onClick={() => {
                     localStorage?.clear("token");
+                    localStorage?.clear("path")
                     window.location.reload();
                     queryClient.invalidateQueries(["token"]);
                     navigate("/auth/login");
