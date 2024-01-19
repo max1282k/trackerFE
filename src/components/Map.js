@@ -9,8 +9,8 @@ const DeviceMap = ({h}) => {
   ];
 
   return (
-    <div className="d-flex justify-content-center border border-rounded py-4">
-      <Map center={[51.5074, -0.1278]} zoom={15} width={'98%'} height={h || 500}>
+    <div className="d-flex justify-content-center border border-rounded">
+      <Map center={[51.5074, -0.1278]} zoom={15} width={'100%'} height={h || 500}>
         {markerPositions.map((marker) => (
           <Marker key={marker.id} anchor={marker.position} payload={marker.id} />
         ))}
