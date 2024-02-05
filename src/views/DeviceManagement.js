@@ -89,6 +89,9 @@ const DeviceManagement = () => {
             <Button size="sm" color="primary" onClick={treeToggle}>
               <i className="fa-solid fa-network-wired"></i>
             </Button>
+            {/* <Button size="sm" color="info" onClick={treeToggle}>
+            <i class="fa-regular fa-pen-to-square"></i>
+            </Button> */}
           </>
         ),
       });
