@@ -26,6 +26,7 @@ import {
   ModalBody,
   FormGroup,
   Spinner,
+  ModalFooter,
 } from "reactstrap";
 // core components
 import Header from "components/Headers/Header.js";
@@ -42,22 +43,55 @@ const DeviceManagement = () => {
   const navigate = useNavigate();
   const deleteDeviceMutation = useDeleteDevice();
   const columns = [
-    "id",
-    "Device Type",
-    "Equipment Type",
-    "Supported Parameters",
-    "Actions",
+    "Serial Number",
+    "Model Manufacturer",
+    "Initial Maintenance",
+    "Regular Maintenance",
+    "Last Maintenance",
+    "Maintenance Contract",
+    "Smart Device",
+    "Operational Hours",
+    "Current Status",
+    "Latitude Longitude",
+    "IMEI",
+    "Speed",
+    "RPM Fuel Level",
+    "Action",
   ];
+  const [formData, setFormData] = useState({
+    machineName: "",
+    client: "",
+    serialNumber: "",
+    machineModel: "",
+    brand: "",
+    category: "",
+    rootCloudRunningStatus: "",
+    country: "",
+    department: "",
+    interval: "",
+    initialMaintenance: "",
+    maintenanceAgreement: "",
+  });
+  const [validationErrors, setValidationErrors] = useState({});
   const [rows, setRows] = useState([]);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [addModal, setAddModal] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
   const [treeModal, setTreeModal] = useState(false);
   const [id, setId] = useState();
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
-  const { isLoading, data:organizationData, error } = useGetAllDevices({limit: itemsPerPage,offset: (currentPage * itemsPerPage)});
+  const {
+    isLoading,
+    data: organizationData,
+    error,
+  } = useGetAllDevices({
+    limit: itemsPerPage,
+    offset: currentPage * itemsPerPage,
+  });
   const deleteToggle = () => setDeleteModal(!deleteModal);
+  const addToggle = () => setAddModal(!addModal);
   const filterToggle = () => setFilterModal(!filterModal);
   const treeToggle = () => setTreeModal(!treeModal);
 
@@ -65,15 +99,26 @@ const DeviceManagement = () => {
     setCurrentPage(selectedPage.selected);
   };
 
+  console.log(organizationData);
+
   const reArrageData = () => {
     let tempArr = [];
 
     organizationData.results.forEach((item, idx) => {
       tempArr?.push({
-        id: item?._id,
-        deviceType: item?.deviceType?.name,
-        equipmentType: item?.equipmentType?.name,
-        supportedParameters: Object.keys(item?.status)?.length -1,
+        serialNumber: item?._id,
+        modelManufacturer: item?.deviceType?.name,
+        regularMaintenance: "30 hours",
+        initialMaintenance: "10 hours",
+        lastMaintenance: "25 hours",
+        maintenanceContract: false ? "Yes" : "No",
+        smartDevice: true ? "Yes" : "No",
+        operationalHours: 200,
+        currentStatus: "active",
+        gps: "10.04.12.23",
+        imei: 324567865432,
+        speed: "80",
+        rpm: "200",
         actions: (
           <>
             <Button
@@ -84,19 +129,60 @@ const DeviceManagement = () => {
                 setId(item._id);
               }}
             >
-               <i className="fa-solid fa-trash"></i>
+              <i className="fa-solid fa-trash"></i>
             </Button>
-            <Button size="sm" color="primary" onClick={treeToggle}>
-              <i className="fa-solid fa-network-wired"></i>
+            <Button
+              size="sm"
+              color="primary"
+              onClick={() => navigate("/admin/device-details")}
+            >
+              <i className="fa-solid fa-eye"></i>
             </Button>
-            {/* <Button size="sm" color="info" onClick={treeToggle}>
-            <i class="fa-regular fa-pen-to-square"></i>
-            </Button> */}
+            <Button size="sm" color="info" onClick={treeToggle}>
+              <i class="fa-regular fa-pen-to-square"></i>
+            </Button>
           </>
         ),
       });
     });
     setRows(tempArr);
+  };
+
+  const validateForm = () => {
+    const errors = {};
+    for (const key in formData) {
+      if (!formData[key]) {
+        errors[key] = `${
+          key.charAt(0).toUpperCase() + key.slice(1)
+        } is required`;
+      }
+    }
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  // Function to handle form submission
+  const handleSubmit = () => {
+    if (!validateForm()) {
+      return;
+    }
+    setFormData({
+      machineName: "",
+      client: "",
+      serialNumber: "",
+      machineModel: "",
+      brand: "",
+      category: "",
+      rootCloudRunningStatus: "",
+      country: "",
+      department: "",
+      interval: "",
+      initialMaintenance: "",
+      maintenanceAgreement: "",
+    });
+    setAddModal(false);
+
+    toast.success("Device Added Successfully!");
   };
 
   useEffect(() => {
@@ -105,9 +191,9 @@ const DeviceManagement = () => {
       setTotalCount(organizationData?.totalCount);
     }
     if (error) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
-  },[organizationData, currentPage]);
+  }, [organizationData, currentPage]);
   return (
     <>
       <Header />
@@ -118,9 +204,10 @@ const DeviceManagement = () => {
           <div className="col">
             <Card className="shadow">
               <CardHeader className="border-0 px-0 px-md-2 d-flex align-items-center">
-                <Col xs="auto">
+                <Row className="px-4 d-flex justify-content-between align-items-center  w-100">
                   <h3 className="mb-0">Devices</h3>
-                </Col>
+                  <Button onClick={addToggle}>Add Device</Button>
+                </Row>
                 {/* <Col className="d-flex align-items-center justify-content-end">
                   <Button
                     className="px-1 px-md-3 py-2 text-sm"
@@ -138,7 +225,7 @@ const DeviceManagement = () => {
               )}
               <CardFooter className="py-4">
                 <nav aria-label="...">
-                <Pagination
+                  <Pagination
                     className="pagination justify-content-end mb-0"
                     listClassName="justify-content-end mb-0"
                     // style={paginationContainerStyles}
@@ -186,9 +273,7 @@ const DeviceManagement = () => {
                 aria-hidden="true"
               ></i>
             </Row>
-            <Row className="mt-4">
-              Are you sure about deleting this device?
-            </Row>
+            <Row className="mt-4">Are you sure about deleting this device?</Row>
             <Button
               color="danger"
               onClick={async () => {
@@ -196,10 +281,9 @@ const DeviceManagement = () => {
                   await deleteDeviceMutation.mutateAsync({
                     id: id,
                   });
-                  toast.success('Device Deleted Succesfully!!!')
-                  
+                  toast.success("Device Deleted Succesfully!!!");
                 } catch (error) {
-                  toast.error('Error deleting the device')
+                  toast.error("Error deleting the device");
                 }
                 deleteToggle();
               }}
@@ -287,6 +371,239 @@ const DeviceManagement = () => {
               Cancel
             </Button>
           </ModalBody>
+        </Modal>
+        <Modal isOpen={addModal} toggle={addToggle}>
+          <ModalHeader className="pb-0">Add Device</ModalHeader>
+          <ModalBody className="pb-0">
+            <Row className="w-100">
+              <Col md="12">
+                <FormGroup>
+                  <Label className="m-0">Machine Name</Label>
+                  <Input
+                    value={formData.machineName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, machineName: e.target.value })
+                    }
+                  />
+                  {validationErrors.machineName && (
+                    <span className="text-danger">
+                      {validationErrors.machineName}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="12">
+                <FormGroup>
+                  <Label className="m-0">Client</Label>
+                  <Input
+                    value={formData.client}
+                    onChange={(e) =>
+                      setFormData({ ...formData, client: e.target.value })
+                    }
+                  />
+                  {validationErrors.client && (
+                    <span className="text-danger">
+                      {validationErrors.client}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Serial Number</Label>
+                  <Input
+                    value={formData.serialNumber}
+                    onChange={(e) =>
+                      setFormData({ ...formData, serialNumber: e.target.value })
+                    }
+                  />
+                  {validationErrors.serialNumber && (
+                    <span className="text-danger">
+                      {validationErrors.serialNumber}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Machine Model</Label>
+                  <Input
+                    value={formData.machineModel}
+                    onChange={(e) =>
+                      setFormData({ ...formData, machineModel: e.target.value })
+                    }
+                  />
+                  {validationErrors.machineModel && (
+                    <span className="text-danger">
+                      {validationErrors.machineModel}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Brand</Label>
+                  <Input
+                    value={formData.brand}
+                    onChange={(e) =>
+                      setFormData({ ...formData, brand: e.target.value })
+                    }
+                  />
+                  {validationErrors.brand && (
+                    <span className="text-danger">
+                      {validationErrors.brand}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Category</Label>
+                  <Input
+                    type="select"
+                    value={formData.category}
+                    onChange={(e) =>
+                      setFormData({ ...formData, category: e.target.value })
+                    }
+                  >
+                    <option></option>
+                    <option>Category 1</option>
+                    <option>Category 2</option>
+                    <option>Category 3</option>
+                    <option>Category 4</option>
+                    {/* Add options for category dropdown */}
+                  </Input>
+                  {validationErrors.category && (
+                    <span className="text-danger">
+                      {validationErrors.category}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Country</Label>
+                  <Input
+                    type="select"
+                    value={formData.country}
+                    onChange={(e) =>
+                      setFormData({ ...formData, country: e.target.value })
+                    }
+                  >
+                    <option></option>
+
+                    <option>Country 1</option>
+                    <option>Country 2</option>
+                    <option>Country 3</option>
+                    <option>Country 4</option>
+
+                    {/* Add options for country dropdown */}
+                  </Input>
+                  {validationErrors.country && (
+                    <span className="text-danger">
+                      {validationErrors.country}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Department</Label>
+                  <Input
+                    type="select"
+                    value={formData.department}
+                    onChange={(e) =>
+                      setFormData({ ...formData, department: e.target.value })
+                    }
+                  >
+                    <option></option>
+
+                    <option>Department 1</option>
+                    <option>Department 2</option>
+                    <option>Department 3</option>
+                    <option>Department 4</option>
+                    {/* Add options for department dropdown */}
+                  </Input>
+                  {validationErrors.department && (
+                    <span className="text-danger">
+                      {validationErrors.department}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Interval</Label>
+                  <Input
+                    value={formData.interval}
+                    onChange={(e) =>
+                      setFormData({ ...formData, interval: e.target.value })
+                    }
+                  />
+                  {validationErrors.interval && (
+                    <span className="text-danger">
+                      {validationErrors.interval}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Initial Maintenance</Label>
+                  <Input
+                    value={formData.initialMaintenance}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        initialMaintenance: e.target.value,
+                      })
+                    }
+                  />
+                  {validationErrors.initialMaintenance && (
+                    <span className="text-danger">
+                      {validationErrors.initialMaintenance}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Maintenance Agreement</Label>
+                  <Input
+                    type="select"
+                    value={formData.maintenanceAgreement}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        maintenanceAgreement: e.target.value,
+                      })
+                    }
+                  >
+                    <option></option>
+
+                    <option>Maint 1</option>
+                    <option>Maint 2</option>
+                    <option>Maint 3</option>
+                    <option>Maint 4</option>
+                    {/* Add options for maintenance agreement dropdown */}
+                  </Input>
+                  {validationErrors.maintenanceAgreement && (
+                    <span className="text-danger">
+                      {validationErrors.maintenanceAgreement}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+            </Row>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="danger" onClick={handleSubmit}>
+              Add
+            </Button>{" "}
+            <Button color="secondary" onClick={addToggle}>
+              Cancel
+            </Button>
+          </ModalFooter>
         </Modal>
       </Container>
     </>

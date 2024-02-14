@@ -26,6 +26,7 @@ import OrganizationManagement from "views/examples/OrganizationManagement";
 import OrganizationDetail from "components/OrganizationDetail";
 import DeviceManagement from "views/DeviceManagement";
 import AdminManagement from "views/examples/AdminManagement";
+import DeviceDetails from "components/DeviceDetails";
 
 var routes = [
   {
@@ -75,6 +76,13 @@ var routes = [
     name: "Device Management",
     icon: "ni ni-tablet-button text-primary",
     component: <DeviceManagement />,
+    layout: "/admin",
+  },
+  {
+    path: "/device-details",
+    name: "Device Details",
+    icon: "ni ni-tablet-button text-primary",
+    component: <DeviceDetails />,
     layout: "/admin",
   },
   {

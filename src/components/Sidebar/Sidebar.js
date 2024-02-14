@@ -39,7 +39,7 @@ import { useGetLogedInUser } from "utils/auth.api";
 var ps;
 
 const Sidebar = (props) => {
-  const {data: user} = useGetLogedInUser()
+  const { data: user } = useGetLogedInUser();
 
   const [collapseOpen, setCollapseOpen] = useState();
   // verifies if routeName is the one active (in browser input)
@@ -59,21 +59,37 @@ const Sidebar = (props) => {
     return routes
       ?.filter((route) => route?.layout != "/auth" && !route?.nested)
       .map((prop, key) => {
-        if (prop?.path === "/user-profile" || prop.path==='/organization-detail') {
+        if (
+          prop?.path === "/user-profile" ||
+          prop.path === "/device-details" ||
+          prop.path === "/organization-detail"
+        ) {
           return null;
         }
-        if ((prop?.path === ('/admin-mangement')) && user?.role!=='SUPER_ADMIN') {
+
+        if (prop?.path === "/admin-mangement" && user?.role !== "SUPER_ADMIN") {
           return null;
         }
-        if ((prop?.path === ('/organization-mangement')) && user?.role!=='SUPER_ADMIN') {
+        if (
+          prop?.path === "/organization-mangement" &&
+          user?.role !== "SUPER_ADMIN"
+        ) {
           return null;
         }
-        if ((['/user-mangement', '/device-mangement'].includes(prop?.path)) && user?.role === 'USER') {
+        if (
+          ["/user-mangement", "/device-mangement"].includes(prop?.path) &&
+          user?.role === "USER"
+        ) {
           return null;
         }
-        
+
         return (
-          <NavItem key={key} onClick={()=>localStorage.setItem('path', prop.layout + prop.path)}>
+          <NavItem
+            key={key}
+            onClick={() =>
+              localStorage.setItem("path", prop.layout + prop.path)
+            }
+          >
             <NavLink
               to={prop.layout + prop.path}
               tag={NavLinkRRD}
@@ -143,9 +159,12 @@ const Sidebar = (props) => {
               <DropdownItem className="noti-title" header tag="div">
                 <h6 className="text-overflow m-0">Welcome!</h6>
               </DropdownItem>
-             
+
               <DropdownItem divider />
-              <DropdownItem href="/auth/login" onClick={() => localStorage.removeItem('token')}>
+              <DropdownItem
+                href="/auth/login"
+                onClick={() => localStorage.removeItem("token")}
+              >
                 <i className="ni ni-user-run" />
                 <span>Logout</span>
               </DropdownItem>

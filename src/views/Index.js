@@ -18,6 +18,9 @@ import { useNavigate } from "react-router-dom";
 import OrderStats from "components/Charts/orders";
 import TrafficChart from "components/Charts/traficChart";
 import CustomTable from "components/CustomTable";
+import DeviceChart from "components/Charts/devices";
+import FaultyTypesChart from "components/Charts/faultTypes";
+import SmartDevices from "components/Charts/smartDevices";
 
 const Index = () => {
   const columns = [
@@ -28,24 +31,24 @@ const Index = () => {
   ];
   const rows = [
     {
-      id: '888998',
-      deviceType: 'A',
-      eqiuipmentType: 'X',
-      supportedParams: '2'
+      id: "888998",
+      deviceType: "A",
+      eqiuipmentType: "X",
+      supportedParams: "2",
     },
     {
-      id: '4567876',
-      deviceType: 'B',
-      eqiuipmentType: 'Y',
-      supportedParams: '3'
+      id: "4567876",
+      deviceType: "B",
+      eqiuipmentType: "Y",
+      supportedParams: "3",
     },
     {
-      id: '4567876',
-      deviceType: 'C',
-      eqiuipmentType: 'Z',
-      supportedParams: '7'
-    }
-  ]
+      id: "4567876",
+      deviceType: "C",
+      eqiuipmentType: "Z",
+      supportedParams: "7",
+    },
+  ];
   const navigate = useNavigate();
   const { data: user } = useGetLogedInUser();
   return (
@@ -73,37 +76,37 @@ const Index = () => {
                 )}
               </CardHeader>
               <Row className="mb-4 px-2">
-                <Col xs='12' xl='6'>
+                <Col xs="12" xl="6">
                   <TrafficChart />
                   {/* <Container fluid> */}
-                    <Card className="rounded shadow mt-3">
-                      <CardHeader>Statistics in 24h</CardHeader>
-                      <CardBody>
-                        <Row className="mb-2">
-                          <Col className="text-center border mx-1 shadow rounded">
-                            <h5 className="mt-4">Working hours</h5>
-                            <p>220</p>
-                          </Col>
-                          <Col className="text-center border mx-1 shadow rounded">
-                            <h5 className="mt-4">Total engine hours</h5>
-                            <p>120</p>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col className="text-center border mx-1 shadow rounded">
-                            <h5 className="mt-4">Engine hours per unit</h5>
-                            <p>2</p>
-                          </Col>
-                          <Col className="text-center border mx-1 shadow rounded">
-                            <h5 className="mt-4">Working hours per unit</h5>
-                            <p>1.2</p>
-                          </Col>
-                        </Row>
-                      </CardBody>
-                    </Card>
+                  <Card className="rounded shadow mt-3">
+                    <CardHeader>Statistics in 24h</CardHeader>
+                    <CardBody>
+                      <Row className="mb-2">
+                        <Col className="text-center border mx-1 shadow rounded">
+                          <h5 className="mt-4">Working hours</h5>
+                          <p>220</p>
+                        </Col>
+                        <Col className="text-center border mx-1 shadow rounded">
+                          <h5 className="mt-4">Total engine hours</h5>
+                          <p>120</p>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col className="text-center border mx-1 shadow rounded">
+                          <h5 className="mt-4">Engine hours per unit</h5>
+                          <p>2</p>
+                        </Col>
+                        <Col className="text-center border mx-1 shadow rounded">
+                          <h5 className="mt-4">Working hours per unit</h5>
+                          <p>1.2</p>
+                        </Col>
+                      </Row>
+                    </CardBody>
+                  </Card>
                   {/* </Container> */}
                 </Col>
-                <Col xs='12' xl='6'>
+                <Col xs="12" xl="6">
                   {/* <Container fluid> */}
                   <DeviceMap />
                   <Card className="rounded shadow mt-3">
@@ -113,6 +116,32 @@ const Index = () => {
                     </CardBody>
                   </Card>
                   {/* </Container> */}
+                </Col>
+              </Row>
+              <Row className="mb-4 px-2">
+                <Col xs="12" xl="6">
+                  <Card className="rounded shadow">
+                    <Col className="text-left border mx-1 shadow rounded">
+                      <h2 className="mt-2">Devices:</h2>
+                    </Col>
+                    <DeviceChart />
+                  </Card>
+                </Col>
+                <Col xs="12" xl="6">
+                  <Card className="rounded shadow">
+                    <Col className="text-left border mx-1 shadow rounded">
+                      <h2 className="mt-2">Types of Faults:</h2>
+                    </Col>
+                    <FaultyTypesChart />
+                  </Card>
+                </Col>
+                <Col xs="12" xl="6">
+                  <Card className="rounded shadow">
+                    <Col className="text-left border mx-1 shadow rounded">
+                      <h2 className="mt-2">Total Devices:</h2>
+                    </Col>
+                    <SmartDevices />
+                  </Card>
                 </Col>
               </Row>
             </Card>
