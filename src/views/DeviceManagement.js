@@ -65,12 +65,13 @@ const DeviceManagement = () => {
     machineModel: "",
     brand: "",
     category: "",
-    rootCloudRunningStatus: "",
+    SmartDeviceRunningStatus: "",
     country: "",
     department: "",
     interval: "",
     initialMaintenance: "",
     maintenanceAgreement: "",
+    smartDevice: "",
   });
   const [validationErrors, setValidationErrors] = useState({});
   const [rows, setRows] = useState([]);
@@ -98,8 +99,6 @@ const DeviceManagement = () => {
   const handlePageChange = (selectedPage) => {
     setCurrentPage(selectedPage.selected);
   };
-
-  console.log(organizationData);
 
   const reArrageData = () => {
     let tempArr = [];
@@ -173,15 +172,16 @@ const DeviceManagement = () => {
       machineModel: "",
       brand: "",
       category: "",
-      rootCloudRunningStatus: "",
+      SmartDeviceRunningStatus: "",
       country: "",
       department: "",
       interval: "",
       initialMaintenance: "",
       maintenanceAgreement: "",
+      smartDevice: "",
     });
     setAddModal(false);
-
+    setValidationErrors({});
     toast.success("Device Added Successfully!");
   };
 
@@ -205,7 +205,7 @@ const DeviceManagement = () => {
             <Card className="shadow">
               <CardHeader className="border-0 px-0 px-md-2 d-flex align-items-center">
                 <Row className="px-4 d-flex justify-content-between align-items-center  w-100">
-                  <h3 className="mb-0">Devices</h3>
+                  <h3 className="mb-0">Equipment</h3>
                   <Button onClick={addToggle}>Add Device</Button>
                 </Row>
                 {/* <Col className="d-flex align-items-center justify-content-end">
@@ -482,7 +482,7 @@ const DeviceManagement = () => {
               </Col>
               <Col md="6">
                 <FormGroup>
-                  <Label className="m-0">Country</Label>
+                  <Label className="m-0">States</Label>
                   <Input
                     type="select"
                     value={formData.country}
@@ -492,10 +492,23 @@ const DeviceManagement = () => {
                   >
                     <option></option>
 
-                    <option>Country 1</option>
-                    <option>Country 2</option>
-                    <option>Country 3</option>
-                    <option>Country 4</option>
+                    <option>Atlanida</option>
+                    <option>Choluteca</option>
+                    <option>Colon</option>
+                    <option>Camayagua</option>
+                    <option>Copan</option>
+                    <option>Cortes</option>
+                    <option>EL Paraiso</option>
+                    <option>Francisco Morazan</option>
+                    <option>Gracias A Dios</option>
+                    <option>Intibuca</option>
+                    <option>Islas De La Bahia</option>
+                    <option>La Paz</option>
+                    <option>Lempira</option>
+                    <option>Ocotepeque</option>
+                    <option>Olancho</option>
+                    <option>Santa Barbara</option>
+                    <option>Vaile</option>
 
                     {/* Add options for country dropdown */}
                   </Input>
@@ -549,6 +562,25 @@ const DeviceManagement = () => {
               </Col>
               <Col md="6">
                 <FormGroup>
+                  <Label className="m-0">Last Maintenance</Label>
+                  <Input
+                    value={formData.lastMaintenance}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        lastMaintenance: e.target.value,
+                      })
+                    }
+                  />
+                  {validationErrors.lastMaintenance && (
+                    <span className="text-danger">
+                      {validationErrors.lastMaintenance}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
                   <Label className="m-0">Initial Maintenance</Label>
                   <Input
                     value={formData.initialMaintenance}
@@ -568,28 +600,26 @@ const DeviceManagement = () => {
               </Col>
               <Col md="6">
                 <FormGroup>
-                  <Label className="m-0">Maintenance Agreement</Label>
+                  <Label className="m-0">Smart Device</Label>
                   <Input
                     type="select"
-                    value={formData.maintenanceAgreement}
+                    value={formData.smartDevice}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        maintenanceAgreement: e.target.value,
+                        smartDevice: e.target.value,
                       })
                     }
                   >
                     <option></option>
 
-                    <option>Maint 1</option>
-                    <option>Maint 2</option>
-                    <option>Maint 3</option>
-                    <option>Maint 4</option>
+                    <option>Yes</option>
+                    <option>No</option>
                     {/* Add options for maintenance agreement dropdown */}
                   </Input>
-                  {validationErrors.maintenanceAgreement && (
+                  {validationErrors.smartDevice && (
                     <span className="text-danger">
-                      {validationErrors.maintenanceAgreement}
+                      {validationErrors.smartDevice}
                     </span>
                   )}
                 </FormGroup>
@@ -600,7 +630,29 @@ const DeviceManagement = () => {
             <Button color="danger" onClick={handleSubmit}>
               Add
             </Button>{" "}
-            <Button color="secondary" onClick={addToggle}>
+            <Button
+              color="secondary"
+              onClick={() => {
+                addToggle();
+                setValidationErrors({});
+
+                setFormData({
+                  machineName: "",
+                  client: "",
+                  serialNumber: "",
+                  machineModel: "",
+                  brand: "",
+                  category: "",
+                  SmartDeviceRunningStatus: "",
+                  country: "",
+                  department: "",
+                  interval: "",
+                  initialMaintenance: "",
+                  maintenanceAgreement: "",
+                  smartDevice: "",
+                });
+              }}
+            >
               Cancel
             </Button>
           </ModalFooter>

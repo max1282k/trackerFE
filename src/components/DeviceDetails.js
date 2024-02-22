@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Headers/Header";
-import { Card, Col, Container, Row } from "reactstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  FormGroup,
+  Input,
+  Label,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Row,
+} from "reactstrap";
 import DeviceMap from "./Map";
 
 const DeviceDetails = () => {
+  const [addModal, setAddModal] = useState(false);
+
+  const addToggle = () => setAddModal(!addModal);
+
   return (
     <div>
       <Header />
@@ -17,19 +34,14 @@ const DeviceDetails = () => {
                   <DeviceMap />
                 </Col>
                 <Col className="p-4">
-                  <Row className=" pr-4">
-                    <Col className="d-flex justify-content-center align-items-center gap-4 border-1 bg-danger rounded p-1 mx-1">
+                  <Row className="pr-4 justify-content-end">
+                    <Button
+                      className="d-flex justify-content-center align-items-center gap-4 border-1 bg-primary rounded p-2 mx-1"
+                      onClick={addToggle}
+                    >
                       <img />
-                      <p className="p-0 m-0 text-dark">Failed</p>
-                    </Col>
-                    <Col className="d-flex justify-content-center align-items-center gap-4 border-1 bg-primary rounded p-1 mx-1">
-                      <img />
-                      <p className="p-0 m-0 text-dark">Maintenance</p>
-                    </Col>
-                    <Col className="d-flex justify-content-center align-items-center gap-4 border-1 bg-success rounded p-1 mx-1">
-                      <img />
-                      <p className="p-0 m-0 text-dark">Syn HR</p>
-                    </Col>
+                      <p className="p-0 m-0 text-white">Update Maintenance</p>
+                    </Button>
                   </Row>
                   <Row className="d-flex flex-column border-bottom w-100 pr-4 mt-4">
                     <h2 className="m-0 p-0 mb-1">Last Failure</h2>
@@ -67,6 +79,11 @@ const DeviceDetails = () => {
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Date:</h5>
                       <p className="text-dark text-sm">July 12, 2023</p>
+                    </Col>
+
+                    <Col className="p-0 mt-1" xs="6" md="3">
+                      <h5 className="m-0">Vehicles/Equipment:</h5>
+                      <p className="text-dark text-sm">car</p>
                     </Col>
                   </Row>
                   <Row className="d-flex flex-column border-bottom w-100 pr-4 mt-4"></Row>
@@ -144,7 +161,7 @@ const DeviceDetails = () => {
                   </Row>
                   <Row>
                     <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Root Cloud Operative</h5>
+                      <h5 className="m-0">Smart Device Operative</h5>
                       <p className="text-dark text-sm">Yes</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
@@ -170,7 +187,7 @@ const DeviceDetails = () => {
                       <p className="text-dark text-sm">1200</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Team WithRoot Cloud</h5>
+                      <h5 className="m-0">Team With Smart Device</h5>
                       <p className="text-dark text-sm">Yes</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
@@ -183,6 +200,25 @@ const DeviceDetails = () => {
             </Card>
           </div>
         </Row>
+        <Modal isOpen={addModal} toggle={addToggle}>
+          <ModalHeader className="pb-0">Edit Maintenance</ModalHeader>
+          <ModalBody className="pb-0">
+            <Row className="w-100">
+              <Col md="12">
+                <FormGroup>
+                  <Label className="m-0">Condition</Label>
+                  <Input placeholder="condition" />
+                </FormGroup>
+              </Col>
+            </Row>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="danger">Edit</Button>{" "}
+            <Button color="secondary" onClick={addToggle}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
       </Container>
     </div>
   );

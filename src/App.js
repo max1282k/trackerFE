@@ -11,26 +11,26 @@ import UserInvite from "views/UserInvite";
 import DetailedMap from "views/examples/DetailedMap";
 
 const App = () => {
-  // const verifyTokenMutation = useVerifyToken();
-  // const [isVerified, setIsVerified] = useState(false);
-  // const path = localStorage.getItem('path');
+  const verifyTokenMutation = useVerifyToken();
+  const [isVerified, setIsVerified] = useState(false);
+  const path = localStorage.getItem('path');
 
   const { data: token } = useQuery(["token"], () =>
     localStorage.getItem("token")
   );
 
-  // const verify = async ()=> {
-  //   const verifiedToken = await verifyTokenMutation.mutateAsync({
-  //     token: token?.slice(7),
-  //   })
-  //   if (verifiedToken?.decodedToken) {
-  //     setIsVerified(true);
-  //   }
-  // }
+  const verify = async ()=> {
+    const verifiedToken = await verifyTokenMutation.mutateAsync({
+      token: token?.slice(7),
+    })
+    if (verifiedToken?.decodedToken) {
+      setIsVerified(true);
+    }
+  }
 
-  // useEffect(() => {
-  //   verify();
-  // }, [token]);
+  useEffect(() => {
+    verify();
+  }, [token]);
 
   if (token === undefined) {
     return <Spinner className="d-block mx-auto my-5" />;
@@ -42,8 +42,8 @@ const App = () => {
       <Routes>
         <Route path={`/verifyAdminPage`} element={<AdminInvite />} />
         <Route path={`/verifyUserPage`} element={<UserInvite />} />
-        {token && <Route path={`/detailed-map`} element={<DetailedMap />} />}
-        {token ? (
+        {isVerified && <Route path={`/detailed-map`} element={<DetailedMap />} />}
+        {isVerified ? (
           <Route path="/admin/*" element={<AdminLayout />} />
         ) : (
           <Route path="/auth/*" element={<AuthLayout />} />
@@ -51,10 +51,10 @@ const App = () => {
         <Route
           path="*"
           element={
-            token ? (
-              <Navigate to={ "/admin/index"} replace />
+            isVerified ? (
+              <Navigate to={path || "/admin/index"} replace />
             ) : (
-              <Navigate to={"/auth/login"} replace />
+              <Navigate to={path || "/auth/login"} replace />
             )
           }
         />

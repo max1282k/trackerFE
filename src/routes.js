@@ -27,6 +27,7 @@ import OrganizationDetail from "components/OrganizationDetail";
 import DeviceManagement from "views/DeviceManagement";
 import AdminManagement from "views/examples/AdminManagement";
 import DeviceDetails from "components/DeviceDetails";
+import EquipmentTypes from "views/EquipmentTypes";
 
 var routes = [
   {
@@ -83,6 +84,13 @@ var routes = [
     name: "Device Details",
     icon: "ni ni-tablet-button text-primary",
     component: <DeviceDetails />,
+    layout: "/admin",
+  },
+  {
+    path: "/equipment-types",
+    name: "Equipment Types",
+    icon: "fa fa-solid fa-toolbox text-danger",
+    component: <EquipmentTypes />,
     layout: "/admin",
   },
   {
