@@ -15,8 +15,12 @@ import {
   Row,
 } from "reactstrap";
 import DeviceMap from "./Map";
+import { useLocation } from "react-router-dom";
 
 const DeviceDetails = () => {
+  const location = useLocation();
+  const data = location.state;
+  console.log(data);
   const [addModal, setAddModal] = useState(false);
 
   const addToggle = () => setAddModal(!addModal);

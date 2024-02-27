@@ -37,6 +37,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useGetAllDevices } from "utils/device.api";
 import { useDeleteDevice } from "utils/device.api";
 import ReactPaginate from "react-paginate";
+import { useGetEquipment } from "utils/equipment";
+import { useCreateEquipment } from "utils/equipment";
 
 const DeviceManagement = () => {
   // const organizationData = [];
@@ -60,18 +62,19 @@ const DeviceManagement = () => {
   ];
   const [formData, setFormData] = useState({
     machineName: "",
+    imei: "",
     client: "",
     serialNumber: "",
     machineModel: "",
     brand: "",
     category: "",
     SmartDeviceRunningStatus: "",
-    country: "",
+    states: "",
     department: "",
     interval: "",
     initialMaintenance: "",
     maintenanceAgreement: "",
-    smartDevice: "",
+    smartDevice: false,
   });
   const [validationErrors, setValidationErrors] = useState({});
   const [rows, setRows] = useState([]);
@@ -83,14 +86,8 @@ const DeviceManagement = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
-  const {
-    isLoading,
-    data: organizationData,
-    error,
-  } = useGetAllDevices({
-    limit: itemsPerPage,
-    offset: currentPage * itemsPerPage,
-  });
+  const { isLoading, data: organizationData, error } = useGetEquipment();
+  const createEquipmentMutation = useCreateEquipment();
   const deleteToggle = () => setDeleteModal(!deleteModal);
   const addToggle = () => setAddModal(!addModal);
   const filterToggle = () => setFilterModal(!filterModal);
@@ -103,21 +100,21 @@ const DeviceManagement = () => {
   const reArrageData = () => {
     let tempArr = [];
 
-    organizationData.results.forEach((item, idx) => {
+    organizationData?.forEach((item, idx) => {
       tempArr?.push({
-        serialNumber: item?._id,
-        modelManufacturer: item?.deviceType?.name,
+        serialNumber: item?.serialNumber,
+        modelManufacturer: item?.manufacturer,
         regularMaintenance: "30 hours",
-        initialMaintenance: "10 hours",
-        lastMaintenance: "25 hours",
+        initialMaintenance: item?.initialMaintenance,
+        lastMaintenance: item?.lastMaintenance,
         maintenanceContract: false ? "Yes" : "No",
-        smartDevice: true ? "Yes" : "No",
+        smartDevice: item?.smartDevice ? "Yes" : "No",
         operationalHours: 200,
         currentStatus: "active",
         gps: "10.04.12.23",
-        imei: 324567865432,
-        speed: "80",
-        rpm: "200",
+        imei: item?.imei,
+        speed: item?.speed,
+        rpm: item?.rpm,
         actions: (
           <>
             <Button
@@ -133,7 +130,7 @@ const DeviceManagement = () => {
             <Button
               size="sm"
               color="primary"
-              onClick={() => navigate("/admin/device-details")}
+              onClick={() => navigate("/admin/device-details", { state: item })}
             >
               <i className="fa-solid fa-eye"></i>
             </Button>
@@ -161,28 +158,35 @@ const DeviceManagement = () => {
   };
 
   // Function to handle form submission
-  const handleSubmit = () => {
-    if (!validateForm()) {
-      return;
+  const handleSubmit = async () => {
+    try {
+      // if (!validateForm()) {
+      //   return;
+      // }
+      await createEquipmentMutation.mutateAsync(formData);
+
+      setFormData({
+        machineName: "",
+        imei: "",
+        client: "",
+        serialNumber: "",
+        machineModel: "",
+        brand: "",
+        category: "",
+        SmartDeviceRunningStatus: "",
+        states: "",
+        department: "",
+        interval: "",
+        initialMaintenance: "",
+        maintenanceAgreement: "",
+        smartDevice: "",
+      });
+      setAddModal(false);
+      setValidationErrors({});
+      toast.success("Equipment Added Successfully!");
+    } catch (error) {
+      toast.error(error?.message);
     }
-    setFormData({
-      machineName: "",
-      client: "",
-      serialNumber: "",
-      machineModel: "",
-      brand: "",
-      category: "",
-      SmartDeviceRunningStatus: "",
-      country: "",
-      department: "",
-      interval: "",
-      initialMaintenance: "",
-      maintenanceAgreement: "",
-      smartDevice: "",
-    });
-    setAddModal(false);
-    setValidationErrors({});
-    toast.success("Device Added Successfully!");
   };
 
   useEffect(() => {
@@ -394,6 +398,20 @@ const DeviceManagement = () => {
               </Col>
               <Col md="12">
                 <FormGroup>
+                  <Label className="m-0">IMEI</Label>
+                  <Input
+                    value={formData.imei}
+                    onChange={(e) =>
+                      setFormData({ ...formData, imei: e.target.value })
+                    }
+                  />
+                  {validationErrors.imei && (
+                    <span className="text-danger">{validationErrors.imei}</span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="12">
+                <FormGroup>
                   <Label className="m-0">Client</Label>
                   <Input
                     value={formData.client}
@@ -485,9 +503,9 @@ const DeviceManagement = () => {
                   <Label className="m-0">States</Label>
                   <Input
                     type="select"
-                    value={formData.country}
+                    value={formData.states}
                     onChange={(e) =>
-                      setFormData({ ...formData, country: e.target.value })
+                      setFormData({ ...formData, states: e.target.value })
                     }
                   >
                     <option></option>
@@ -510,11 +528,11 @@ const DeviceManagement = () => {
                     <option>Santa Barbara</option>
                     <option>Vaile</option>
 
-                    {/* Add options for country dropdown */}
+                    {/* Add options for states dropdown */}
                   </Input>
-                  {validationErrors.country && (
+                  {validationErrors.states && (
                     <span className="text-danger">
-                      {validationErrors.country}
+                      {validationErrors.states}
                     </span>
                   )}
                 </FormGroup>
@@ -607,7 +625,7 @@ const DeviceManagement = () => {
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        smartDevice: e.target.value,
+                        smartDevice: e.target.value==='Yes' ? true : false,
                       })
                     }
                   >
@@ -627,8 +645,13 @@ const DeviceManagement = () => {
             </Row>
           </ModalBody>
           <ModalFooter>
-            <Button color="danger" onClick={handleSubmit}>
-              Add
+            <Button
+              color="danger"
+              type="submit"
+              onClick={handleSubmit}
+              disabled={createEquipmentMutation.isLoading}
+            >
+              {createEquipmentMutation.isLoading ? <Spinner /> : "Add"}
             </Button>{" "}
             <Button
               color="secondary"
@@ -644,12 +667,12 @@ const DeviceManagement = () => {
                   brand: "",
                   category: "",
                   SmartDeviceRunningStatus: "",
-                  country: "",
+                  states: "",
                   department: "",
                   interval: "",
                   initialMaintenance: "",
                   maintenanceAgreement: "",
-                  smartDevice: "",
+                  smartDevice: false,
                 });
               }}
             >
