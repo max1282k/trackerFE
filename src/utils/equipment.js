@@ -9,14 +9,36 @@ export const useGetEquipment = () =>
 
 export const useCreateEquipment = () => {
   const queryClient = useQueryClient();
- 
+
   return useMutation(
     async (payload) => {
-      console.log(payload)
+      console.log(payload);
       const response = await client("equipment/createEquipment", {
         method: "POST",
         data: payload,
       });
+      return response;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["getEquipment"]);
+      },
+    }
+  );
+};
+
+export const useEditEquipment = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async (payload) => {
+      const response = await client(
+        `equipment/editEquipment/${payload?.imei}`,
+        {
+          method: "POST",
+          data: payload,
+        }
+      );
       return response;
     },
     {

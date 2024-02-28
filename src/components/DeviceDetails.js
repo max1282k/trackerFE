@@ -35,7 +35,10 @@ const DeviceDetails = () => {
             <Card className="shadow">
               <Row>
                 <Col xs="12" md="4" className="p-4">
-                  <DeviceMap />
+                  <DeviceMap
+                    latitude={data?.latitude}
+                    longitude={data?.longitude}
+                  />
                 </Col>
                 <Col className="p-4">
                   <Row className="pr-4 justify-content-end">
@@ -53,19 +56,27 @@ const DeviceDetails = () => {
                   <Row>
                     <Col className="p-0 mt-2" xs="6" md="3">
                       <h5 className="m-0">State:</h5>
-                      <p className="text-dark text-sm">Operational</p>
+                      <p className="text-dark text-sm">
+                        {data?.state || "Operational"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-2" xs="6" md="3">
                       <h5 className="m-0">Type:</h5>
-                      <p className="text-dark text-sm">Without folia</p>
+                      <p className="text-dark text-sm">
+                        {data?.type || "Without folia"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-2" xs="6" md="3">
                       <h5 className="m-0">Description:</h5>
-                      <p className="text-dark text-sm">No fuss</p>
+                      <p className="text-dark text-sm">
+                        {data?.description || "No fuss"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-2" xs="6" md="3">
                       <h5 className="m-0">Date:</h5>
-                      <p className="text-dark text-sm">May 07, 2023</p>
+                      <p className="text-dark text-sm">
+                        {data?.date || "May 07, 2023"}
+                      </p>
                     </Col>
                   </Row>
                   <Row className="d-flex flex-column border-bottom w-100 pr-4 mt-4">
@@ -74,20 +85,28 @@ const DeviceDetails = () => {
                   <Row>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Hour meter:</h5>
-                      <p className="text-dark text-sm">1600</p>
+                      <p className="text-dark text-sm">
+                        {data?.hourMeter || "1600"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Made By:</h5>
-                      <p className="text-dark text-sm">N/A</p>
+                      <p className="text-dark text-sm">
+                        {data?.madeBy || "N / A"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Date:</h5>
-                      <p className="text-dark text-sm">July 12, 2023</p>
+                      <p className="text-dark text-sm">
+                        {data?.date || "July 12, 2023"}
+                      </p>
                     </Col>
 
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Vehicles/Equipment:</h5>
-                      <p className="text-dark text-sm">car</p>
+                      <p className="text-dark text-sm">
+                        {data?.vehicle || "car"}
+                      </p>
                     </Col>
                   </Row>
                   <Row className="d-flex flex-column border-bottom w-100 pr-4 mt-4"></Row>
@@ -98,79 +117,113 @@ const DeviceDetails = () => {
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Country</h5>
-                      <p className="text-dark text-sm">Houndurus</p>
+                      <p className="text-dark text-sm">
+                        {data?.country || "Houndurus"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Department:</h5>
-                      <p className="text-dark text-sm">Copan</p>
+                      <p className="text-dark text-sm">
+                        {data?.department || "Copan"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Category</h5>
-                      <p className="text-dark text-sm">Dump Trucks</p>
+                      <p className="text-dark text-sm">
+                        {data?.category || "Dump Trucks"}
+                      </p>
                     </Col>
                   </Row>
                   <Row>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Hour meter:</h5>
-                      <p className="text-dark text-sm">1600</p>
+                      <p className="text-dark text-sm">
+                        {data?.hourMeter || "1600"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Brand</h5>
-                      <p className="text-dark text-sm">SANY</p>
+                      <p className="text-dark text-sm">
+                        {data?.brand || "SANY"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Model</h5>
-                      <p className="text-dark text-sm">SY2130C-BR</p>
+                      <p className="text-dark text-sm">
+                        {data?.model || "SY2130C-BR"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Status</h5>
-                      <p className="text-dark text-sm">Active</p>
+                      <p className="text-dark text-sm">
+                        {data?.status || "Active"}
+                      </p>
                     </Col>
                   </Row>
                   <Row>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Mileage</h5>
-                      <p className="text-dark text-sm">0</p>
+                      <p className="text-dark text-sm">
+                        {data?.mileage || "0"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Latitude</h5>
-                      <p className="text-dark text-sm">14.6536</p>
+                      <p className="text-dark text-sm">
+                        {data?.latitude || "14.6536"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Length</h5>
-                      <p className="text-dark text-sm">88.8345</p>
+                      <p className="text-dark text-sm">
+                        {data?.length || "88.8345"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Fuel Level</h5>
-                      <p className="text-dark text-sm">44%</p>
+                      <p className="text-dark text-sm">
+                        {data?.fuelLevel || "44%"}
+                      </p>
                     </Col>
                   </Row>
                   <Row>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Total Consumption</h5>
-                      <p className="text-dark text-sm">0/-</p>
+                      <p className="text-dark text-sm">
+                        {data?.totalConsumption || "0/-"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Average Consumption</h5>
-                      <p className="text-dark text-sm">0</p>
+                      <p className="text-dark text-sm">
+                        {data?.averageConsumption || "0"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Actual Consumption</h5>
-                      <p className="text-dark text-sm">0</p>
+                      <p className="text-dark text-sm">
+                        {data?.actualConsumption || "0"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Registered Date</h5>
-                      <p className="text-dark text-sm">July 12, 2023</p>
+                      <p className="text-dark text-sm">
+                        {data?.registeredDate || "July 12, 2023"}
+                      </p>
                     </Col>
                   </Row>
                   <Row>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Smart Device Operative</h5>
-                      <p className="text-dark text-sm">Yes</p>
+                      <p className="text-dark text-sm">
+                        {data?.smartDevice ? "Yes" : "No" || "Yes"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Ult Operation</h5>
-                      <p className="text-dark text-sm">Status On</p>
+                      <p className="text-dark text-sm">
+                        {data?.ultOperation || "Status On"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Ult Update</h5>
@@ -178,25 +231,35 @@ const DeviceDetails = () => {
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Maintenance Performed</h5>
-                      <p className="text-dark text-sm">No</p>
+                      <p className="text-dark text-sm">
+                        {data?.maintenancePerformed || "No"}
+                      </p>
                     </Col>
                   </Row>
                   <Row>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Maintenance Interval</h5>
-                      <p className="text-dark text-sm">400 hours</p>
+                      <p className="text-dark text-sm">
+                        {data?.maintenanceInterval || "400 hours"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Maintenance Start</h5>
-                      <p className="text-dark text-sm">1200</p>
+                      <p className="text-dark text-sm">
+                        {data?.maintenanceStart || "1200"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Team With Smart Device</h5>
-                      <p className="text-dark text-sm">Yes</p>
+                      <p className="text-dark text-sm">
+                        {data?.teamWithSmartDevice || "Yes"}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Maintenance Agreement:</h5>
-                      <p className="text-dark text-sm">Yes</p>
+                      <p className="text-dark text-sm">
+                        {data?.maintenanceAgreement || "Yes"}
+                      </p>
                     </Col>
                   </Row>
                 </Col>
