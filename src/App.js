@@ -19,18 +19,18 @@ const App = () => {
     localStorage.getItem("token")
   );
 
-  const verify = async ()=> {
-    const verifiedToken = await verifyTokenMutation.mutateAsync({
-      token: token?.slice(7),
-    })
-    if (verifiedToken?.decodedToken) {
-      setIsVerified(true);
-    }
-  }
+  // const verify = async ()=> {
+  //   const verifiedToken = await verifyTokenMutation.mutateAsync({
+  //     token: token?.slice(7),
+  //   })
+  //   if (verifiedToken?.decodedToken) {
+  //     setIsVerified(true);
+  //   }
+  // }
 
-  useEffect(() => {
-    verify();
-  }, [token]);
+  // useEffect(() => {
+  //   verify();
+  // }, [token]);
 
   if (token === undefined) {
     return <Spinner className="d-block mx-auto my-5" />;
@@ -42,8 +42,8 @@ const App = () => {
       <Routes>
         <Route path={`/verifyAdminPage`} element={<AdminInvite />} />
         <Route path={`/verifyUserPage`} element={<UserInvite />} />
-        {isVerified && <Route path={`/detailed-map`} element={<DetailedMap />} />}
-        {isVerified ? (
+        {token && <Route path={`/detailed-map`} element={<DetailedMap />} />}
+        {token ? (
           <Route path="/admin/*" element={<AdminLayout />} />
         ) : (
           <Route path="/auth/*" element={<AuthLayout />} />
@@ -51,10 +51,10 @@ const App = () => {
         <Route
           path="*"
           element={
-            isVerified ? (
-              <Navigate to={path || "/admin/index"} replace />
+            token ? (
+              <Navigate to={"/admin/index"} replace />
             ) : (
-              <Navigate to={path || "/auth/login"} replace />
+              <Navigate to={"/auth/login"} replace />
             )
           }
         />
