@@ -1,10 +1,13 @@
-import DeviceMap from 'components/Map'
+import { DashboardMap } from 'components/Map'
 import React from 'react'
+import { Spinner } from 'reactstrap';
+import { useGetEquipment } from 'utils/equipment';
 
 const DetailedMap = () => {
+  const { isLoading, data: EquipmentData, error } = useGetEquipment();
   return (
-    <div className='border border-danger' style={{height:'100vh', width:'100vw'}}>
-        <DeviceMap h='93vh'/>
+    <div style={{height:'100vh', width:'100vw', overflow:"hidden"}}>
+        {isLoading? <Spinner /> : <DashboardMap h={'100vh'} data={EquipmentData} />}
     </div>
   )
 }

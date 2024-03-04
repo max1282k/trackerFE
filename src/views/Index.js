@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   CardBody,
+  Spinner,
 } from "reactstrap";
 
 import Header from "components/Headers/Header.js";
@@ -21,6 +22,8 @@ import CustomTable from "components/CustomTable";
 import DeviceChart from "components/Charts/devices";
 import FaultyTypesChart from "components/Charts/faultTypes";
 import SmartDevices from "components/Charts/smartDevices";
+import { useGetEquipment } from "utils/equipment";
+import { DashboardMap } from "components/Map";
 
 const Index = () => {
   const columns = [
@@ -51,6 +54,7 @@ const Index = () => {
   ];
   const navigate = useNavigate();
   const { data: user } = useGetLogedInUser();
+  const { isLoading, data: EquipmentData, error } = useGetEquipment();
   return (
     <>
       <Header />
@@ -108,7 +112,7 @@ const Index = () => {
                 </Col>
                 <Col xs="12" xl="6">
                   {/* <Container fluid> */}
-                  <DeviceMap />
+                 {isLoading? <Spinner /> : <DashboardMap data={EquipmentData} />}
                   <Card className="rounded shadow mt-3">
                     <CardHeader>Latets Registrations</CardHeader>
                     <CardBody>

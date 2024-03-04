@@ -14,7 +14,7 @@ import {
   ModalHeader,
   Row,
 } from "reactstrap";
-import DeviceMap from "./Map";
+import {DeviceMap} from "./Map";
 import { useLocation } from "react-router-dom";
 
 const DeviceDetails = () => {
@@ -38,6 +38,7 @@ const DeviceDetails = () => {
                   <DeviceMap
                     latitude={data?.latitude}
                     longitude={data?.longitude}
+                    imei={data?.imei}
                   />
                 </Col>
                 <Col className="p-4">
@@ -174,9 +175,9 @@ const DeviceDetails = () => {
                       </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Length</h5>
+                      <h5 className="m-0">longitude</h5>
                       <p className="text-dark text-sm">
-                        {data?.length || "88.8345"}
+                        {data?.longitude || "88.8345"}
                       </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
