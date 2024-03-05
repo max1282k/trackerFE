@@ -63,9 +63,19 @@ const Auth = (props) => {
             <div className="header-body text-center mb-7">
               <Row className="justify-content-center">
                 <Col lg="5" md="6">
-                  
                   <h2 className="text-xl text-lg">Welcome to</h2>
-                  <h1 className="text-white" style={{fontWeight:'bolder', fontSize:'48px'}}>Plantino Motors</h1>
+                  <h1
+                    className="text-white"
+                    style={{ fontWeight: "bolder", fontSize: "48px" }}
+                  >
+                    Plantino Motors
+                  </h1>
+                  <h3
+                    className="text-white"
+                    style={{ fontWeight: "bolder", fontSize: "24px" }}
+                  >
+                    v0.0.3
+                  </h3>
                 </Col>
               </Row>
             </div>
