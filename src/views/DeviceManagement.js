@@ -139,7 +139,9 @@ const DeviceManagement = () => {
             <Button
               size="sm"
               color="primary"
-              onClick={() => navigate("/admin/device-details", { state: item })}
+              onClick={() =>
+                navigate("/admin/device-details", { state: item._id })
+              }
             >
               <i className="fa-solid fa-eye"></i>
             </Button>

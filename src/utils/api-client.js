@@ -1,6 +1,6 @@
 import { QueryCache } from "@tanstack/react-query";
-const apiURL = "https://platinobe.adaptable.app";
-// const apiURL = "http://localhost:5000";
+// const apiURL = "https://platinobe.adaptable.app";
+const apiURL = "http://localhost:5000";
 const queryCache = new QueryCache({
   onError: (error) => {
     console.log(error);
@@ -31,7 +31,6 @@ async function client(
   return await window
     .fetch(`${apiURL}/${endpoint}`, config)
     .then(async (response) => {
-      console.log(response);
       if (response.status === 401) {
         queryCache.clear();
         const errorData = await response.json();

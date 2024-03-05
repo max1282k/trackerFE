@@ -7,12 +7,17 @@ export const useGetEquipment = () =>
     return response;
   });
 
+export const useGetEquipmentById = (id) =>
+  useQuery(["getEquipmentById", id], async () => {
+    const response = await client(`equipment/getEquipmentById/${id}`);
+    return response;
+  });
+
 export const useCreateEquipment = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
     async (payload) => {
-      console.log(payload);
       const response = await client("equipment/createEquipment", {
         method: "POST",
         data: payload,

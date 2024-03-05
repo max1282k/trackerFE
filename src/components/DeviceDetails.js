@@ -14,13 +14,15 @@ import {
   ModalHeader,
   Row,
 } from "reactstrap";
-import {DeviceMap} from "./Map";
+import { DeviceMap } from "./Map";
 import { useLocation } from "react-router-dom";
+import { useGetEquipmentById } from "utils/equipment";
 
 const DeviceDetails = () => {
   const location = useLocation();
-  const data = location.state;
-  console.log(data);
+  const id = location.state;
+  const { data } = useGetEquipmentById(id);
+
   const [addModal, setAddModal] = useState(false);
 
   const addToggle = () => setAddModal(!addModal);
