@@ -1,10 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { client } from "./api-client";
 
-export const useGetEquipment = () =>
+export const useGetEquipment = (refetchInterval) =>
   useQuery(["getEquipment"], async () => {
     const response = await client(`equipment/getEquipment`);
     return response;
+  }, {
+    // Set the refetch interval dynamically
+    refetchInterval,
   });
 
 export const useGetEquipmentById = (id) =>
