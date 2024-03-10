@@ -13,6 +13,7 @@ import {
   ModalFooter,
   ModalHeader,
   Row,
+  Spinner,
 } from "reactstrap";
 import { DeviceMap } from "./Map";
 import { useLocation } from "react-router-dom";
@@ -21,7 +22,7 @@ import { useGetEquipmentById } from "utils/equipment";
 const DeviceDetails = () => {
   const location = useLocation();
   const id = location.state;
-  const { data } = useGetEquipmentById(id);
+  const { data, isLoading } = useGetEquipmentById(id);
 
   const [addModal, setAddModal] = useState(false);
 
@@ -37,11 +38,11 @@ const DeviceDetails = () => {
             <Card className="shadow">
               <Row>
                 <Col xs="12" md="4" className="p-4">
-                  <DeviceMap
+                 {isLoading? <Spinner /> : <DeviceMap
                     latitude={data?.latitude}
                     longitude={data?.longitude}
                     imei={data?.imei}
-                  />
+                  />}
                 </Col>
                 <Col className="p-4">
                   <Row className="pr-4 justify-content-end">
