@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./Headers/Header";
 import {
   Button,
@@ -27,6 +27,15 @@ const DeviceDetails = () => {
   const [addModal, setAddModal] = useState(false);
 
   const addToggle = () => setAddModal(!addModal);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000); // Update every minute
+
+    return () => clearInterval(intervalId); // Clean up on unmount
+  }, []);
 
   return (
     <div>
@@ -291,13 +300,13 @@ const DeviceDetails = () => {
                       <p className="text-dark text-sm">{data?.odometer}</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Updated</h5>
+                      <h5 className="m-0">Updated At</h5>
                       <p className="text-dark text-sm">
                         {data?.updatedAt
-                          ? new Date() - new Date(data.updatedAt) < 60000
+                          ? currentTime - new Date(data.updatedAt) < 60000
                             ? "just now"
                             : `${Math.floor(
-                                (new Date() - new Date(data.updatedAt)) / 60000
+                                (currentTime - new Date(data.updatedAt)) / 60000
                               )} minutes ago`
                           : "N/A"}
                       </p>
