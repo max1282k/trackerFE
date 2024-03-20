@@ -50,7 +50,7 @@ const DeviceDetails = () => {
                       className="d-flex justify-content-center align-items-center gap-4 border-1 bg-primary rounded p-2 mx-1"
                       onClick={addToggle}
                     >
-                      <img />
+                      {/* <img /> */}
                       <p className="p-0 m-0 text-white">Update Maintenance</p>
                     </Button>
                   </Row>
