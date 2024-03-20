@@ -38,11 +38,15 @@ const DeviceDetails = () => {
             <Card className="shadow">
               <Row>
                 <Col xs="12" md="4" className="p-4">
-                 {isLoading? <Spinner /> : <DeviceMap
-                    latitude={data?.latitude}
-                    longitude={data?.longitude}
-                    imei={data?.imei}
-                  />}
+                  {isLoading ? (
+                    <Spinner />
+                  ) : (
+                    <DeviceMap
+                      latitude={data?.latitude}
+                      longitude={data?.longitude}
+                      imei={data?.imei}
+                    />
+                  )}
                 </Col>
                 <Col className="p-4">
                   <Row className="pr-4 justify-content-end">
@@ -270,26 +274,32 @@ const DeviceDetails = () => {
                   <Row>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Speed</h5>
-                      <p className="text-dark text-sm">
-                        {data?.speed || "400 hours"}
-                      </p>
+                      <p className="text-dark text-sm">{data?.speed}</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">RPM</h5>
-                      <p className="text-dark text-sm">
-                        {data?.rpm || "1200"}
-                      </p>
+                      <p className="text-dark text-sm">{data?.rpm}</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Engine Temprature</h5>
                       <p className="text-dark text-sm">
-                        {data?.engineTemperature || "Yes"}
+                        {data?.engineTemperature}
                       </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Odometer</h5>
+                      <p className="text-dark text-sm">{data?.odometer}</p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="3">
+                      <h5 className="m-0">Updated</h5>
                       <p className="text-dark text-sm">
-                        {data?.odometer || "Yes"}
+                        {data?.updatedAt
+                          ? new Date() - new Date(data.updatedAt) < 60000
+                            ? "just now"
+                            : `${Math.floor(
+                                (new Date() - new Date(data.updatedAt)) / 60000
+                              )} minutes ago`
+                          : "N/A"}
                       </p>
                     </Col>
                   </Row>
