@@ -71,7 +71,7 @@ const Auth = (props) => {
                     className="text-white"
                     style={{ fontWeight: "bolder", fontSize: "24px" }}
                   >
-                    v0.0.4
+                    v0.0.5
                   </h3>
                 </Col>
               </Row>
