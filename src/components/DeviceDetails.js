@@ -266,6 +266,33 @@ const DeviceDetails = () => {
                       </p>
                     </Col>
                   </Row>
+                  <Row className="d-flex flex-column border-bottom w-100 pr-4 mt-4"></Row>
+                  <Row>
+                    <Col className="p-0 mt-1" xs="6" md="3">
+                      <h5 className="m-0">Speed</h5>
+                      <p className="text-dark text-sm">
+                        {data?.speed || "400 hours"}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="3">
+                      <h5 className="m-0">RPM</h5>
+                      <p className="text-dark text-sm">
+                        {data?.rpm || "1200"}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="3">
+                      <h5 className="m-0">Engine Temprature</h5>
+                      <p className="text-dark text-sm">
+                        {data?.engineTemperature || "Yes"}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="3">
+                      <h5 className="m-0">Odometer</h5>
+                      <p className="text-dark text-sm">
+                        {data?.odometer || "Yes"}
+                      </p>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
             </Card>
