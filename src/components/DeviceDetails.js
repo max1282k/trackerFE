@@ -300,14 +300,24 @@ const DeviceDetails = () => {
                       <p className="text-dark text-sm">{data?.odometer}</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Updated At</h5>
+                      <h5 className="m-0">Last Updated</h5>
                       <p className="text-dark text-sm">
                         {data?.updatedAt
                           ? currentTime - new Date(data.updatedAt) < 60000
                             ? "just now"
-                            : `${Math.floor(
+                            : currentTime - new Date(data.updatedAt) < 3600000
+                            ? `${Math.floor(
                                 (currentTime - new Date(data.updatedAt)) / 60000
                               )} minutes ago`
+                            : currentTime - new Date(data.updatedAt) < 86400000
+                            ? `${Math.floor(
+                                (currentTime - new Date(data.updatedAt)) /
+                                  3600000
+                              )} hours ago`
+                            : `${Math.floor(
+                                (currentTime - new Date(data.updatedAt)) /
+                                  86400000
+                              )} days ago`
                           : "N/A"}
                       </p>
                     </Col>
