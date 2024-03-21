@@ -13,7 +13,6 @@ import {
   ModalFooter,
   ModalHeader,
   Row,
-  Spinner,
 } from "reactstrap";
 import { DeviceMap } from "./Map";
 import { useLocation } from "react-router-dom";
@@ -47,15 +46,12 @@ const DeviceDetails = () => {
             <Card className="shadow">
               <Row>
                 <Col xs="12" md="4" className="p-4">
-                  {isLoading ? (
-                    <Spinner />
-                  ) : (
                     <DeviceMap
                       latitude={data?.latitude}
                       longitude={data?.longitude}
                       imei={data?.imei}
+                      isLoading={isLoading}
                     />
-                  )}
                 </Col>
                 <Col className="p-4">
                   <Row className="pr-4 justify-content-end">
