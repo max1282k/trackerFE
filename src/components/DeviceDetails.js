@@ -46,12 +46,19 @@ const DeviceDetails = () => {
             <Card className="shadow">
               <Row>
                 <Col xs="12" md="4" className="p-4">
+                  {isLoading ? (
+                     <DeviceMap
+                     latitude={13.939832}
+                     longitude={-86.960994}
+                     imei={data?.imei}
+                   />
+                  ) : (
                     <DeviceMap
                       latitude={data?.latitude}
                       longitude={data?.longitude}
                       imei={data?.imei}
-                      isLoading={isLoading}
                     />
+                  )}
                 </Col>
                 <Col className="p-4">
                   <Row className="pr-4 justify-content-end">

@@ -1,64 +1,46 @@
-import React, { useState, useEffect } from "react";
-import { Map, Marker, Overlay } from "pigeon-maps";
-import { useNavigate } from "react-router-dom";
-import { Spinner } from "reactstrap";
+import React, { useState } from 'react';
+import { Map, Marker, Overlay } from 'pigeon-maps';
+import { useNavigate } from 'react-router-dom';
 
 export const DeviceMap = ({ h, latitude, longitude, imei, isLoading }) => {
   const [hoveredMarker, setHoveredMarker] = useState(null);
-  const [markerPositions, setMarkerPositions] = useState([]);
+  console.log(latitude, longitude);
   
-  useEffect(() => {
-    setMarkerPositions([
-      {
-        id: 2,
-        position: [Number(latitude), Number(longitude)],
-        info: `imei: ${imei}`,
-      },
-    ]);
-  }, [latitude, longitude, imei]);
+  const markerPositions = [
+    { id: 2, position: [Number(latitude), Number(longitude)], info: `imei: ${imei}` },
+  ];
 
   return (
     <div className="d-flex justify-content-center border border-rounded">
-      <Map
-        center={[Number(latitude), Number(longitude)]}
-        zoom={7}
-        width={"100%"}
-        height={h || 500}
-      >
-        {!isLoading &&
-          markerPositions.map((marker) => (
-            <Marker
-              key={marker.id}
-              anchor={marker.position}
-              payload={marker.id}
-              onMouseOver={() => setHoveredMarker(marker)}
-              onMouseOut={() => setHoveredMarker(null)}
-            />
-          ))}
+      <Map center={[Number(latitude), Number(longitude)]} zoom={7} width={"100%"} height={h || 500}>
+        {markerPositions.map((marker) => (
+          <Marker
+            key={marker.id}
+            anchor={marker.position}
+            payload={marker.id}
+            onMouseOver={() => setHoveredMarker(marker)}
+            onMouseOut={() => setHoveredMarker(null)}
+          />
+        ))}
 
         {hoveredMarker && (
-          <Overlay anchor={hoveredMarker.position} offset={[0, -20]}>
-            <div
-              style={{
-                backgroundColor: "white",
-                padding: "5px",
-                borderRadius: "5px",
-                boxShadow: "0 0 5px rgba(0, 0, 0, 0.3)",
-              }}
-            >
+          <Overlay
+            anchor={hoveredMarker.position}
+            offset={[0, -20]}
+          >
+            <div style={{ backgroundColor: 'white', padding: '5px', borderRadius: '5px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)' }}>
               {hoveredMarker.info}
             </div>
           </Overlay>
         )}
       </Map>
-      {isLoading && <Spinner />}
     </div>
   );
 };
 
 
 export const DashboardMap = ({ h, data }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [hoveredMarker, setHoveredMarker] = useState(null);
 
   const markerPositions = data.map((item) => ({
@@ -94,15 +76,11 @@ export const DashboardMap = ({ h, data }) => {
         ))}
 
         {hoveredMarker && (
-          <Overlay anchor={hoveredMarker.position} offset={[0, -20]}>
-            <div
-              style={{
-                backgroundColor: "white",
-                padding: "5px",
-                borderRadius: "5px",
-                boxShadow: "0 0 5px rgba(0, 0, 0, 0.3)",
-              }}
-            >
+          <Overlay
+            anchor={hoveredMarker.position}
+            offset={[0, -20]}
+          >
+            <div style={{ backgroundColor: 'white', padding: '5px', borderRadius: '5px', boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)' }}>
               {hoveredMarker.info}
             </div>
           </Overlay>
@@ -139,3 +117,4 @@ export const DashboardMap = ({ h, data }) => {
 //     </div>
 //   );
 // };
+
