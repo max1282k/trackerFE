@@ -13,6 +13,7 @@ import {
   ModalFooter,
   ModalHeader,
   Row,
+  Spinner,
 } from "reactstrap";
 import { DeviceMap } from "./Map";
 import { useLocation } from "react-router-dom";
@@ -21,12 +22,25 @@ import { useGetEquipmentById } from "utils/equipment";
 const DeviceDetails = () => {
   const location = useLocation();
   const id = location.state;
-  const { data, isLoading } = useGetEquipmentById(id);
+  const { data } = useGetEquipmentById(id);
 
   const [addModal, setAddModal] = useState(false);
 
   const addToggle = () => setAddModal(!addModal);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [deviceData, setDeviceData] = useState(null);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (data) {
+        setDeviceData({
+          latitude: data.latitude,
+          longitude: data.longitude,
+          imei: data.imei,
+        });
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [data]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -46,17 +60,13 @@ const DeviceDetails = () => {
             <Card className="shadow">
               <Row>
                 <Col xs="12" md="4" className="p-4">
-                  {isLoading ? (
-                     <DeviceMap
-                     latitude={13.939832}
-                     longitude={-86.960994}
-                     imei={data?.imei}
-                   />
+                  {!deviceData ? (
+                    <Spinner color="primary" />
                   ) : (
                     <DeviceMap
-                      latitude={data?.latitude}
-                      longitude={data?.longitude}
-                      imei={data?.imei}
+                      latitude={deviceData.latitude}
+                      longitude={deviceData.longitude}
+                      imei={deviceData.imei}
                     />
                   )}
                 </Col>
