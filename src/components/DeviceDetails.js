@@ -314,10 +314,16 @@ const DeviceDetails = () => {
                                 (currentTime - new Date(data.updatedAt)) /
                                   3600000
                               )} hours ago`
-                            : `${Math.floor(
+                            : currentTime - new Date(data.updatedAt) <
+                              2592000000 // 30 days in milliseconds
+                            ? `${Math.floor(
                                 (currentTime - new Date(data.updatedAt)) /
                                   86400000
                               )} days ago`
+                            : `${Math.floor(
+                                (currentTime - new Date(data.updatedAt)) /
+                                  2592000000
+                              )} months ago`
                           : "N/A"}
                       </p>
                     </Col>
