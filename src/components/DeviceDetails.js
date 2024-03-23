@@ -28,19 +28,7 @@ const DeviceDetails = () => {
 
   const addToggle = () => setAddModal(!addModal);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [deviceData, setDeviceData] = useState(null);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (data) {
-        setDeviceData({
-          latitude: data.latitude,
-          longitude: data.longitude,
-          imei: data.imei,
-        });
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [data]);
+
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -60,15 +48,13 @@ const DeviceDetails = () => {
             <Card className="shadow">
               <Row>
                 <Col xs="12" md="4" className="p-4">
-                  {!deviceData ? (
-                    <Spinner color="primary" />
-                  ) : (
+                  {data &&
                     <DeviceMap
-                      latitude={deviceData.latitude}
-                      longitude={deviceData.longitude}
-                      imei={deviceData.imei}
+                      latitude={data.latitude}
+                      longitude={data.longitude}
+                      imei={data.imei}
                     />
-                  )}
+                  }
                 </Col>
                 <Col className="p-4">
                   <Row className="pr-4 justify-content-end">
