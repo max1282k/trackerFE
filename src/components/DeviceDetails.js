@@ -29,7 +29,6 @@ const DeviceDetails = () => {
   const addToggle = () => setAddModal(!addModal);
   const [currentTime, setCurrentTime] = useState(new Date());
 
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTime(new Date());
@@ -48,13 +47,13 @@ const DeviceDetails = () => {
             <Card className="shadow">
               <Row>
                 <Col xs="12" md="4" className="p-4">
-                  {data &&
+                  {data && (
                     <DeviceMap
                       latitude={data.latitude}
                       longitude={data.longitude}
                       imei={data.imei}
                     />
-                  }
+                  )}
                 </Col>
                 <Col className="p-4">
                   <Row className="pr-4 justify-content-end">
@@ -307,22 +306,50 @@ const DeviceDetails = () => {
                             : currentTime - new Date(data.updatedAt) < 3600000
                             ? `${Math.floor(
                                 (currentTime - new Date(data.updatedAt)) / 60000
-                              )} minutes ago`
+                              )} minute${
+                                Math.floor(
+                                  (currentTime - new Date(data.updatedAt)) /
+                                    60000
+                                ) !== 1
+                                  ? "s"
+                                  : ""
+                              } ago`
                             : currentTime - new Date(data.updatedAt) < 86400000
                             ? `${Math.floor(
                                 (currentTime - new Date(data.updatedAt)) /
                                   3600000
-                              )} hours ago`
+                              )} hour${
+                                Math.floor(
+                                  (currentTime - new Date(data.updatedAt)) /
+                                    3600000
+                                ) !== 1
+                                  ? "s"
+                                  : ""
+                              } ago`
                             : currentTime - new Date(data.updatedAt) <
-                              2592000000 // 30 days in milliseconds
+                              2592000000
                             ? `${Math.floor(
                                 (currentTime - new Date(data.updatedAt)) /
                                   86400000
-                              )} days ago`
+                              )} day${
+                                Math.floor(
+                                  (currentTime - new Date(data.updatedAt)) /
+                                    86400000
+                                ) !== 1
+                                  ? "s"
+                                  : ""
+                              } ago`
                             : `${Math.floor(
                                 (currentTime - new Date(data.updatedAt)) /
                                   2592000000
-                              )} months ago`
+                              )} month${
+                                Math.floor(
+                                  (currentTime - new Date(data.updatedAt)) /
+                                    2592000000
+                                ) !== 1
+                                  ? "s"
+                                  : ""
+                              } ago`
                           : "N/A"}
                       </p>
                     </Col>
