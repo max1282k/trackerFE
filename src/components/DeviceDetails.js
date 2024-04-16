@@ -315,6 +315,42 @@ const DeviceDetails = () => {
                       </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
+                      <h5 className="m-0">DI1</h5>
+                      <p className="text-dark text-sm">
+                        {data?.DI1}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="3">
+                      <h5 className="m-0">DI12</h5>
+                      <p className="text-dark text-sm">
+                        {data?.DI12}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="3">
+                      <h5 className="m-0">DO1</h5>
+                      <p className="text-dark text-sm">
+                        {data?.DO1}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="3">
+                      <h5 className="m-0">DO2</h5>
+                      <p className="text-dark text-sm">
+                        {data?.DO2}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="3">
+                      <h5 className="m-0">AO1</h5>
+                      <p className="text-dark text-sm">
+                        {data?.AO1}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="3">
+                      <h5 className="m-0">AO2</h5>
+                      <p className="text-dark text-sm">
+                        {data?.AO2}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Last Updated</h5>
                       <p className="text-dark text-sm">
                         {data?.updatedAt

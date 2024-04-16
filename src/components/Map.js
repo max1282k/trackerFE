@@ -4,13 +4,15 @@ import { useNavigate } from "react-router-dom";
 
 export const DeviceMap = ({ h, latitude, longitude, imei, isLoading }) => {
   const [hoveredMarker, setHoveredMarker] = useState(null);
-  console.log(latitude, longitude);
   const [lat, setLat] = useState(latitude);
   const [long, setLong] = useState(longitude);
   const [imeiNo, setImeiNo] = useState(imei);
   const [markerPositions, setMarkerPositions] = useState([
     { id: 2, position: [Number(lat), Number(long)], info: `imei: ${imeiNo}` },
   ]);
+
+  // State to store the current zoom level
+  const [zoom, setZoom] = useState(7);
 
   useEffect(() => {
     setLat(latitude);
@@ -25,13 +27,20 @@ export const DeviceMap = ({ h, latitude, longitude, imei, isLoading }) => {
     ]);
   }, [latitude, longitude, imei]);
 
+  // Update zoom state when the zoom changes
+  const handleZoomChange = ({ zoom }) => {
+    setZoom(zoom);
+  };
+
   return (
     <div className="d-flex justify-content-center border border-rounded">
       <Map
         center={[Number(lat), Number(long)]}
-        zoom={7}
+        zoom={zoom}
         width={"100%"}
         height={h || 500}
+        // Listen for zoom changes and update the zoom state
+        onBoundsChanged={handleZoomChange}
       >
         {markerPositions.map((marker) => (
           <Marker
@@ -61,9 +70,11 @@ export const DeviceMap = ({ h, latitude, longitude, imei, isLoading }) => {
   );
 };
 
+
 export const DashboardMap = ({ h, data }) => {
   const navigate = useNavigate();
   const [hoveredMarker, setHoveredMarker] = useState(null);
+  const [zoom, setZoom] = useState(7); // State to store the current zoom level
 
   const markerPositions = data.map((item) => ({
     id: item._id,
@@ -81,9 +92,21 @@ export const DashboardMap = ({ h, data }) => {
     averagePosition[1] / markerPositions.length,
   ];
 
+  // Update zoom state when the zoom changes
+  const handleZoomChange = ({ zoom }) => {
+    setZoom(zoom);
+  };
+
   return (
     <div className="d-flex justify-content-center border border-rounded">
-      <Map zoom={7} center={center} width="100%" height={h || 500}>
+      <Map
+        zoom={zoom}
+        center={center}
+        width="100%"
+        height={h || 500}
+        // Listen for zoom changes and update the zoom state
+        onBoundsChanged={handleZoomChange}
+      >
         {markerPositions.map((marker) => (
           <Marker
             key={marker.id}
