@@ -1,22 +1,11 @@
 // reactstrap components
 import {
-  Badge,
   Card,
   CardHeader,
   CardFooter,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  Media,
   Pagination,
-  PaginationItem,
-  PaginationLink,
-  Progress,
-  Table,
   Container,
   Row,
-  UncontrolledTooltip,
   Button,
   Col,
   Label,
@@ -33,8 +22,7 @@ import Header from "components/Headers/Header.js";
 import { useEffect, useState } from "react";
 import CustomTable from "components/CustomTable";
 import { toast } from "react-toastify";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useGetAllDevices } from "utils/device.api";
+import { useNavigate } from "react-router-dom";
 import { useDeleteDevice } from "utils/device.api";
 import ReactPaginate from "react-paginate";
 import { useGetEquipment } from "utils/equipment";
@@ -65,7 +53,7 @@ const DeviceManagement = () => {
   ];
   const [formData, setFormData] = useState({
     machineName: "",
-    imei: "",
+    // imei: "",
     organization: "",
     serialNumber: "",
     machineModel: "",
@@ -104,7 +92,7 @@ const DeviceManagement = () => {
     setCurrentPage(selectedPage.selected);
   };
 
-  console.log(formData.imei);
+  // console.log(formData.imei);
 
   const reArrageData = () => {
     let tempArr = [];
@@ -123,7 +111,7 @@ const DeviceManagement = () => {
         currentStatus: "active",
         latitude: item?.latitude,
         longitude: item?.longitude,
-        imei: item?.imei,
+        // imei: item?.imei,
         speed: item?.speed,
         rpm: item?.rpm,
         actions: (
@@ -153,7 +141,7 @@ const DeviceManagement = () => {
               onClick={() => {
                 setFormData({
                   machineName: item?.machineName,
-                  imei: item?.imei,
+                  // imei: item?.imei,
                   organization: item?.organization,
                   serialNumber: item?.serialNumber,
                   machineModel: item?.machineModel,
@@ -182,18 +170,18 @@ const DeviceManagement = () => {
     setRows(tempArr);
   };
 
-  const validateForm = () => {
-    const errors = {};
-    for (const key in formData) {
-      if (!formData[key]) {
-        errors[key] = `${
-          key.charAt(0).toUpperCase() + key.slice(1)
-        } is required`;
-      }
-    }
-    setValidationErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
+  // const validateForm = () => {
+  //   const errors = {};
+  //   for (const key in formData) {
+  //     if (!formData[key]) {
+  //       errors[key] = `${
+  //         key.charAt(0).toUpperCase() + key.slice(1)
+  //       } is required`;
+  //     }
+  //   }
+  //   setValidationErrors(errors);
+  //   return Object.keys(errors).length === 0;
+  // };
 
   // Function to handle form submission
   const handleSubmit = async () => {
@@ -205,7 +193,7 @@ const DeviceManagement = () => {
 
       setFormData({
         machineName: "",
-        imei: "",
+        // imei: "",
         organization: "",
         serialNumber: "",
         machineModel: "",
@@ -239,7 +227,7 @@ const DeviceManagement = () => {
 
       setFormData({
         machineName: "",
-        imei: "",
+        // imei: "",
         organization: "",
         serialNumber: "",
         machineModel: "",
@@ -271,6 +259,7 @@ const DeviceManagement = () => {
     if (error) {
       toast.error(error.message);
     }
+     // eslint-disable-next-line
   }, [organizationData, currentPage]);
   return (
     <>
@@ -773,7 +762,7 @@ const DeviceManagement = () => {
                   )}
                 </FormGroup>
               </Col>
-              <Col md="12">
+              {/* <Col md="12">
                 <FormGroup>
                   <Label className="m-0">IMEI</Label>
                   <Input
@@ -786,7 +775,7 @@ const DeviceManagement = () => {
                     <span className="text-danger">{validationErrors.imei}</span>
                   )}
                 </FormGroup>
-              </Col>
+              </Col> */}
               <Col md="12">
                 <FormGroup>
                   <Label className="m-0">Organization</Label>
