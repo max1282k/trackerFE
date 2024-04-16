@@ -47,7 +47,8 @@ const DeviceManagement = () => {
   const deleteDeviceMutation = useDeleteDevice();
   const columns = [
     "Serial Number",
-    "Model Manufacturer",
+    "Model",
+    "Manufacturer",
     "Initial Maintenance",
     "Regular Maintenance",
     "Last Maintenance",
@@ -65,13 +66,14 @@ const DeviceManagement = () => {
   const [formData, setFormData] = useState({
     machineName: "",
     imei: "",
-    client: "",
+    organization: "",
     serialNumber: "",
     machineModel: "",
-    brand: "",
+    manufacturer: "",
     category: "",
     SmartDeviceRunningStatus: "",
     states: "",
+    otherState: "",
     department: "",
     interval: "",
     initialMaintenance: "",
@@ -110,7 +112,8 @@ const DeviceManagement = () => {
     organizationData?.forEach((item, idx) => {
       tempArr?.push({
         serialNumber: item?.serialNumber,
-        modelManufacturer: item?.manufacturer,
+        model: item?.machineModel,
+        manufacturer: item?.manufacturer,
         regularMaintenance: "30 hours",
         initialMaintenance: item?.initialMaintenance,
         lastMaintenance: item?.lastMaintenance,
@@ -120,7 +123,6 @@ const DeviceManagement = () => {
         currentStatus: "active",
         latitude: item?.latitude,
         longitude: item?.longitude,
-
         imei: item?.imei,
         speed: item?.speed,
         rpm: item?.rpm,
@@ -152,9 +154,10 @@ const DeviceManagement = () => {
                 setFormData({
                   machineName: item?.machineName,
                   imei: item?.imei,
-                  client: item?.client,
+                  organization: item?.organization,
                   serialNumber: item?.serialNumber,
                   machineModel: item?.machineModel,
+                  manufacturer: item?.manufacturer,
                   brand: item?.brand,
                   category: item?.category,
                   SmartDeviceRunningStatus: item?.SmartDeviceRunningStatus,
@@ -203,13 +206,16 @@ const DeviceManagement = () => {
       setFormData({
         machineName: "",
         imei: "",
-        client: "",
+        organization: "",
         serialNumber: "",
         machineModel: "",
+        manufacturer: "",
         brand: "",
         category: "",
         SmartDeviceRunningStatus: "",
         states: "",
+        otherState: "",
+
         department: "",
         interval: "",
         initialMaintenance: "",
@@ -234,13 +240,15 @@ const DeviceManagement = () => {
       setFormData({
         machineName: "",
         imei: "",
-        client: "",
+        organization: "",
         serialNumber: "",
         machineModel: "",
+        manufacturer: "",
         brand: "",
         category: "",
         SmartDeviceRunningStatus: "",
         states: "",
+        otherState: "",
         department: "",
         interval: "",
         initialMaintenance: "",
@@ -430,16 +438,16 @@ const DeviceManagement = () => {
 
               <Col md="12">
                 <FormGroup>
-                  <Label className="m-0">Client</Label>
+                  <Label className="m-0">Organization</Label>
                   <Input
-                    value={formData.client}
+                    value={formData.organization}
                     onChange={(e) =>
-                      setFormData({ ...formData, client: e.target.value })
+                      setFormData({ ...formData, organization: e.target.value })
                     }
                   />
-                  {validationErrors.client && (
+                  {validationErrors.organization && (
                     <span className="text-danger">
-                      {validationErrors.client}
+                      {validationErrors.organization}
                     </span>
                   )}
                 </FormGroup>
@@ -478,16 +486,25 @@ const DeviceManagement = () => {
               </Col>
               <Col md="6">
                 <FormGroup>
-                  <Label className="m-0">Latitude</Label>
+                  <Label className="m-0">Model</Label>
                   <Input
-                    value={formData.latitude}
+                    type="select"
+                    value={formData.category}
                     onChange={(e) =>
-                      setFormData({ ...formData, latitude: e.target.value })
+                      setFormData({ ...formData, category: e.target.value })
                     }
-                  />
-                  {validationErrors.latitude && (
+                  >
+                    <option disabled selected value="">
+                      Select a model
+                    </option>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                    {/* Add options for category dropdown */}
+                  </Input>
+                  {validationErrors.category && (
                     <span className="text-danger">
-                      {validationErrors.latitude}
+                      {validationErrors.category}
                     </span>
                   )}
                 </FormGroup>
@@ -534,11 +551,15 @@ const DeviceManagement = () => {
                       setFormData({ ...formData, category: e.target.value })
                     }
                   >
-                    <option></option>
-                    <option>Category 1</option>
-                    <option>Category 2</option>
-                    <option>Category 3</option>
-                    <option>Category 4</option>
+                    <option disabled selected value="">
+                      Select a category
+                    </option>
+                    <option>Mini excavator</option>
+                    <option>Small excavator</option>
+                    <option>Medium excavator</option>
+                    <option>Large excavator</option>
+                    <option>Header Machine</option>
+                    <option>Dump Truck</option>
                     {/* Add options for category dropdown */}
                   </Input>
                   {validationErrors.category && (
@@ -711,13 +732,15 @@ const DeviceManagement = () => {
 
                 setFormData({
                   machineName: "",
-                  client: "",
+                  organization: "",
                   serialNumber: "",
                   machineModel: "",
+                  manufacturer: "",
                   brand: "",
                   category: "",
                   SmartDeviceRunningStatus: "",
                   states: "",
+                  otherState: "",
                   department: "",
                   interval: "",
                   initialMaintenance: "",
@@ -766,16 +789,16 @@ const DeviceManagement = () => {
               </Col>
               <Col md="12">
                 <FormGroup>
-                  <Label className="m-0">Client</Label>
+                  <Label className="m-0">Organization</Label>
                   <Input
-                    value={formData.client}
+                    value={formData.organization}
                     onChange={(e) =>
-                      setFormData({ ...formData, client: e.target.value })
+                      setFormData({ ...formData, organization: e.target.value })
                     }
                   />
-                  {validationErrors.client && (
+                  {validationErrors.organization && (
                     <span className="text-danger">
-                      {validationErrors.client}
+                      {validationErrors.organization}
                     </span>
                   )}
                 </FormGroup>
@@ -798,16 +821,41 @@ const DeviceManagement = () => {
               </Col>
               <Col md="6">
                 <FormGroup>
-                  <Label className="m-0">Machine Model</Label>
+                  <Label className="m-0">Model</Label>
                   <Input
-                    value={formData.machineModel}
+                    type="select"
+                    value={formData.category}
                     onChange={(e) =>
-                      setFormData({ ...formData, machineModel: e.target.value })
+                      setFormData({ ...formData, category: e.target.value })
+                    }
+                  >
+                    <option disabled selected value="">
+                      Select a model
+                    </option>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                    {/* Add options for category dropdown */}
+                  </Input>
+                  {validationErrors.category && (
+                    <span className="text-danger">
+                      {validationErrors.category}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Longitude</Label>
+                  <Input
+                    value={formData.longitude}
+                    onChange={(e) =>
+                      setFormData({ ...formData, longitude: e.target.value })
                     }
                   />
-                  {validationErrors.machineModel && (
+                  {validationErrors.longitude && (
                     <span className="text-danger">
-                      {validationErrors.machineModel}
+                      {validationErrors.longitude}
                     </span>
                   )}
                 </FormGroup>
@@ -846,16 +894,25 @@ const DeviceManagement = () => {
               </Col>
               <Col md="6">
                 <FormGroup>
-                  <Label className="m-0">Brand</Label>
+                  <Label className="m-0">Manufacturer</Label>
                   <Input
-                    value={formData.brand}
+                    type="select"
+                    value={formData.manufacturer}
                     onChange={(e) =>
-                      setFormData({ ...formData, brand: e.target.value })
+                      setFormData({ ...formData, manufacturer: e.target.value })
                     }
-                  />
-                  {validationErrors.brand && (
+                  >
+                    <option disabled selected value="">
+                      Select a manufacturer
+                    </option>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                    {/* Add options for category dropdown */}
+                  </Input>
+                  {validationErrors.manufacturer && (
                     <span className="text-danger">
-                      {validationErrors.brand}
+                      {validationErrors.manufacturer}
                     </span>
                   )}
                 </FormGroup>
@@ -870,11 +927,15 @@ const DeviceManagement = () => {
                       setFormData({ ...formData, category: e.target.value })
                     }
                   >
-                    <option></option>
-                    <option>Category 1</option>
-                    <option>Category 2</option>
-                    <option>Category 3</option>
-                    <option>Category 4</option>
+                    <option disabled selected value="">
+                      Select a category
+                    </option>
+                    <option>Mini excavator</option>
+                    <option>Small excavator</option>
+                    <option>Medium excavator</option>
+                    <option>Large excavator</option>
+                    <option>Header Machine</option>
+                    <option>Dump Truck</option>
                     {/* Add options for category dropdown */}
                   </Input>
                   {validationErrors.category && (
@@ -893,9 +954,11 @@ const DeviceManagement = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, states: e.target.value })
                     }
+                    disabled={formData?.otherState !== ""}
                   >
-                    <option></option>
-
+                    <option disabled selected value="">
+                      Select a state
+                    </option>
                     <option>Atlanida</option>
                     <option>Choluteca</option>
                     <option>Colon</option>
@@ -913,7 +976,7 @@ const DeviceManagement = () => {
                     <option>Olancho</option>
                     <option>Santa Barbara</option>
                     <option>Vaile</option>
-
+                    <option value="Other">Other</option>
                     {/* Add options for states dropdown */}
                   </Input>
                   {validationErrors.states && (
@@ -923,6 +986,25 @@ const DeviceManagement = () => {
                   )}
                 </FormGroup>
               </Col>
+              {formData?.states === "Other" && (
+                <Col md="6">
+                  <FormGroup>
+                    <Label className="m-0">Other State</Label>
+                    <Input
+                      type="text"
+                      value={formData.otherState}
+                      onChange={(e) =>
+                        setFormData({ ...formData, otherState: e.target.value })
+                      }
+                    />
+                    {validationErrors.otherState && (
+                      <span className="text-danger">
+                        {validationErrors.otherState}
+                      </span>
+                    )}
+                  </FormGroup>
+                </Col>
+              )}
               <Col md="6">
                 <FormGroup>
                   <Label className="m-0">Department</Label>
@@ -1047,13 +1129,15 @@ const DeviceManagement = () => {
 
                 setFormData({
                   machineName: "",
-                  client: "",
+                  organization: "",
                   serialNumber: "",
                   machineModel: "",
+                  manufacturer: "",
                   brand: "",
                   category: "",
                   SmartDeviceRunningStatus: "",
                   states: "",
+                  otherState: "",
                   department: "",
                   interval: "",
                   initialMaintenance: "",
