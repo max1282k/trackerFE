@@ -13,7 +13,6 @@ import {
   ModalFooter,
   ModalHeader,
   Row,
-  Spinner,
 } from "reactstrap";
 import { DeviceMap } from "./Map";
 import { useLocation } from "react-router-dom";
@@ -296,6 +295,24 @@ const DeviceDetails = () => {
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Odometer</h5>
                       <p className="text-dark text-sm">{data?.odometer}</p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="3">
+                      <h5 className="m-0">Hours of Operation</h5>
+                      <p className="text-dark text-sm">
+                        {data?.hoursOfOperation}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="3">
+                      <h5 className="m-0">Engine Oil Level</h5>
+                      <p className="text-dark text-sm">
+                        {data?.enginOilLevel}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="3">
+                      <h5 className="m-0">Battery Voltage</h5>
+                      <p className="text-dark text-sm">
+                        {data?.batteryVoltage}
+                      </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Last Updated</h5>
