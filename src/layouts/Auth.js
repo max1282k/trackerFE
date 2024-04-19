@@ -20,7 +20,6 @@ import { useLocation, Route, Routes, Navigate } from "react-router-dom";
 // reactstrap components
 import { Container, Row, Col } from "reactstrap";
 
-
 import routes from "routes.js";
 
 const Auth = (props) => {
@@ -71,7 +70,7 @@ const Auth = (props) => {
                     className="text-white"
                     style={{ fontWeight: "bolder", fontSize: "24px" }}
                   >
-                    v0.0.5
+                    v0.0.6
                   </h3>
                 </Col>
               </Row>
