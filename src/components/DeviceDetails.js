@@ -304,9 +304,7 @@ const DeviceDetails = () => {
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Engine Oil Level</h5>
-                      <p className="text-dark text-sm">
-                        {data?.enginOilLevel}
-                      </p>
+                      <p className="text-dark text-sm">{data?.enginOilLevel}</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Battery Voltage</h5>
@@ -316,39 +314,27 @@ const DeviceDetails = () => {
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">DI1</h5>
-                      <p className="text-dark text-sm">
-                        {data?.DI1}
-                      </p>
+                      <p className="text-dark text-sm">{data?.DI1}</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">DI12</h5>
-                      <p className="text-dark text-sm">
-                        {data?.DI12}
-                      </p>
+                      <h5 className="m-0">DI2</h5>
+                      <p className="text-dark text-sm">{data?.DI2}</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">DO1</h5>
-                      <p className="text-dark text-sm">
-                        {data?.DO1}
-                      </p>
+                      <p className="text-dark text-sm">{data?.DO1}</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">DO2</h5>
-                      <p className="text-dark text-sm">
-                        {data?.DO2}
-                      </p>
+                      <p className="text-dark text-sm">{data?.DO2}</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">AO1</h5>
-                      <p className="text-dark text-sm">
-                        {data?.AO1}
-                      </p>
+                      <h5 className="m-0">AI1</h5>
+                      <p className="text-dark text-sm">{data?.AI1}</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">AO2</h5>
-                      <p className="text-dark text-sm">
-                        {data?.AO2}
-                      </p>
+                      <h5 className="m-0">AI2</h5>
+                      <p className="text-dark text-sm">{data?.AI2}</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Last Updated</h5>
