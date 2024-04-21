@@ -59,7 +59,7 @@ const AdminNavbar = (props) => {
                     localStorage?.clear("token");
                     localStorage?.clear("path")
                     window.location.reload();
-                    queryClient.invalidateQueries(["token"]);
+                    queryClient.invalidateQueries(["token", "path"]);
                     navigate("/auth/login");
                     toast.success("Logged Out Successfully!!!");
                   }}

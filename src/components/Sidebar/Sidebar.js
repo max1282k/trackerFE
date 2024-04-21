@@ -35,10 +35,12 @@ import {
   Col,
 } from "reactstrap";
 import { useGetLogedInUser } from "utils/auth.api";
+import { useQueryClient } from "@tanstack/react-query";
 
 var ps;
 
 const Sidebar = (props) => {
+  const queryClient = useQueryClient()
   const { data: user } = useGetLogedInUser();
 
   const [collapseOpen, setCollapseOpen] = useState();
@@ -86,9 +88,10 @@ const Sidebar = (props) => {
         return (
           <NavItem
             key={key}
-            onClick={() =>
-              localStorage.setItem("path", prop.layout + prop.path)
-            }
+            onClick={() => {
+              localStorage.setItem("path", prop.layout + prop.path);
+              queryClient.invalidateQueries("path");
+            }}
           >
             <NavLink
               to={prop.layout + prop.path}

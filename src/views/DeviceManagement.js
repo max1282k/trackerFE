@@ -23,16 +23,18 @@ import { useEffect, useState } from "react";
 import CustomTable from "components/CustomTable";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useDeleteDevice } from "utils/device.api";
 import ReactPaginate from "react-paginate";
 import { useGetEquipment } from "utils/equipment";
 import { useCreateEquipment } from "utils/equipment";
 import { useEditEquipment } from "utils/equipment";
+import { useDeleteEquipment } from "utils/equipment";
+import { useQueryClient } from "@tanstack/react-query";
 
 const DeviceManagement = () => {
   // const organizationData = [];
   const navigate = useNavigate();
-  const deleteDeviceMutation = useDeleteDevice();
+  const queryClient = useQueryClient();
+  const deleteDeviceMutation = useDeleteEquipment();
   const columns = [
     "Serial Number",
     "Model",
@@ -42,17 +44,17 @@ const DeviceManagement = () => {
     "Last Maintenance",
     "Maintenance Contract",
     "Smart Device",
-    "Operational Hours",
-    "Current Status",
-    "Latitude",
-    "Longitude",
-    "IMEI",
-    "Speed",
-    "RPM Fuel Level",
+    // "Operational Hours",
+    // "Current Status",
+    // "Latitude",
+    // "Longitude",
+    // "IMEI",
+    // "Speed",
+    // "RPM Fuel Level",
     "Action",
   ];
   const [formData, setFormData] = useState({
-    machineName: "",
+    // machineName: "",
     // imei: "",
     organization: "",
     serialNumber: "",
@@ -62,12 +64,12 @@ const DeviceManagement = () => {
     SmartDeviceRunningStatus: "",
     states: "",
     otherState: "",
-    department: "",
-    interval: "",
+    // department: "",
+    maintainanceInterval: "",
     initialMaintenance: "",
     maintenanceAgreement: "",
-    latitude: "",
-    longitude: "",
+    // latitude: "",
+    // longitude: "",
     smartDevice: false,
   });
   const [validationErrors, setValidationErrors] = useState({});
@@ -75,8 +77,11 @@ const DeviceManagement = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [addModal, setAddModal] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
+  const [addUserModal, setAddUserModal] = useState(false);
   const [treeModal, setTreeModal] = useState(false);
   const [id, setId] = useState();
+  const [userId, setUserId] = useState();
+  // const [imei, setImei] = useState();
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
@@ -84,6 +89,7 @@ const DeviceManagement = () => {
   const createEquipmentMutation = useCreateEquipment();
   const editEquipmentMutation = useEditEquipment();
   const deleteToggle = () => setDeleteModal(!deleteModal);
+  const addUserToggle = () => setAddUserModal(!addUserModal);
   const addToggle = () => setAddModal(!addModal);
   const filterToggle = () => setFilterModal(!filterModal);
   const treeToggle = () => setTreeModal(!treeModal);
@@ -102,20 +108,41 @@ const DeviceManagement = () => {
         serialNumber: item?.serialNumber,
         model: item?.machineModel,
         manufacturer: item?.manufacturer,
-        regularMaintenance: "30 hours",
         initialMaintenance: item?.initialMaintenance,
+        regularMaintenance: item?.maintainanceInterval,
         lastMaintenance: item?.lastMaintenance,
         maintenanceContract: false ? "Yes" : "No",
         smartDevice: item?.smartDevice ? "Yes" : "No",
-        operationalHours: 200,
-        currentStatus: "active",
-        latitude: item?.latitude,
-        longitude: item?.longitude,
+        // operationalHours: 200,
+        // currentStatus: "active",
+        // latitude: item?.latitude,
+        // longitude: item?.longitude,
         // imei: item?.imei,
-        speed: item?.speed,
-        rpm: item?.rpm,
+        // speed: item?.speed,
+        // rpm: item?.rpm,
         actions: (
           <>
+           <Button
+              size="sm"
+              color="secondary"
+              onClick={() => {
+                sessionStorage.setItem("deviceId", item._id)
+                window.open(`/configure-device`)
+              }}
+            >
+              <i className="fa-solid fa-circle-plus"></i>
+            </Button>
+            <Button
+              size="sm"
+              color="secondary"
+              onClick={() => {
+                // deleteToggle();
+                addUserToggle();
+                setId(item._id);
+              }}
+            >
+              <i className="fa-solid fa-user-plus"></i>
+            </Button>
             <Button
               size="sm"
               color="danger"
@@ -139,29 +166,31 @@ const DeviceManagement = () => {
               size="sm"
               color="info"
               onClick={() => {
+                setId(item?._id);
                 setFormData({
-                  machineName: item?.machineName,
+                  // machineName: item?.machineName,
                   // imei: item?.imei,
                   organization: item?.organization,
                   serialNumber: item?.serialNumber,
                   machineModel: item?.machineModel,
                   manufacturer: item?.manufacturer,
-                  brand: item?.brand,
+                  // brand: item?.brand,
                   category: item?.category,
-                  SmartDeviceRunningStatus: item?.SmartDeviceRunningStatus,
+                  // SmartDeviceRunningStatus: item?.SmartDeviceRunningStatus,
                   states: item?.states,
-                  department: item?.department,
-                  interval: item?.interval,
+                  // department: item?.department,
+                  maintainanceInterval: item?.maintainanceInterval,
                   initialMaintenance: item?.initialMaintenance,
+                  lastMaintenance: item?.lastMaintenance,
                   maintenanceAgreement: item?.maintenanceAgreement,
-                  latitude: item?.latitude,
-                  longitude: item?.longitude,
+                  // latitude: item?.latitude,
+                  // longitude: item?.longitude,
                   smartDevice: item?.smartDevice ? true : false,
                 });
                 treeToggle();
               }}
             >
-              <i class="fa-regular fa-pen-to-square"></i>
+              <i className="fa-regular fa-pen-to-square"></i>
             </Button>
           </>
         ),
@@ -190,26 +219,7 @@ const DeviceManagement = () => {
       //   return;
       // }
       await createEquipmentMutation.mutateAsync(formData);
-
-      setFormData({
-        machineName: "",
-        // imei: "",
-        organization: "",
-        serialNumber: "",
-        machineModel: "",
-        manufacturer: "",
-        brand: "",
-        category: "",
-        SmartDeviceRunningStatus: "",
-        states: "",
-        otherState: "",
-
-        department: "",
-        interval: "",
-        initialMaintenance: "",
-        maintenanceAgreement: "",
-        smartDevice: "",
-      });
+      resetFormData();
       setAddModal(false);
       setValidationErrors({});
       toast.success("Equipment Added Successfully!");
@@ -223,32 +233,41 @@ const DeviceManagement = () => {
       //   return;
       // }
 
-      await editEquipmentMutation.mutateAsync(formData);
-
-      setFormData({
-        machineName: "",
-        // imei: "",
-        organization: "",
-        serialNumber: "",
-        machineModel: "",
-        manufacturer: "",
-        brand: "",
-        category: "",
-        SmartDeviceRunningStatus: "",
-        states: "",
-        otherState: "",
-        department: "",
-        interval: "",
-        initialMaintenance: "",
-        maintenanceAgreement: "",
-        smartDevice: "",
+      await editEquipmentMutation.mutateAsync({
+        formData: formData,
+        id: id,
       });
+
+      resetFormData();
       setTreeModal(false);
       setValidationErrors({});
       toast.success("Equipment Edited Successfully!");
     } catch (error) {
       toast.error(error?.message);
     }
+  };
+
+  const resetFormData = () => {
+    setFormData({
+      // machineName: "",
+      // imei: "",
+      organization: "",
+      serialNumber: "",
+      machineModel: "",
+      manufacturer: "",
+      category: "",
+      SmartDeviceRunningStatus: "",
+      states: "",
+      otherState: "",
+      // department: "",
+      maintainanceInterval: "",
+      initialMaintenance: "",
+      maintenanceAgreement: "",
+      // latitude: "",
+      // longitude: "",
+      smartDevice: false,
+      user: "",
+    });
   };
 
   useEffect(() => {
@@ -259,7 +278,7 @@ const DeviceManagement = () => {
     if (error) {
       toast.error(error.message);
     }
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [organizationData, currentPage]);
   return (
     <>
@@ -300,7 +319,7 @@ const DeviceManagement = () => {
                     <ReactPaginate
                       previousLabel={
                         <i
-                          class="previous fa fa-chevron-left"
+                          className="previous fa fa-chevron-left"
                           aria-hidden="true"
                         ></i>
                       }
@@ -404,349 +423,11 @@ const DeviceManagement = () => {
             </Button>
           </ModalBody>
         </Modal>
-        <Modal isOpen={treeModal} toggle={treeToggle}>
-          <ModalHeader className="pb-0">Configure Device</ModalHeader>
-          <ModalBody className="pb-0 d-flex flex-column justify-content-center align-items-center ">
-            <Row className="w-100">
-              <Col md="12">
-                <FormGroup>
-                  <Label className="m-0">Machine Name</Label>
-                  <Input
-                    value={formData.machineName}
-                    onChange={(e) =>
-                      setFormData({ ...formData, machineName: e.target.value })
-                    }
-                  />
-                  {validationErrors.machineName && (
-                    <span className="text-danger">
-                      {validationErrors.machineName}
-                    </span>
-                  )}
-                </FormGroup>
-              </Col>
-
-              <Col md="12">
-                <FormGroup>
-                  <Label className="m-0">Organization</Label>
-                  <Input
-                    value={formData.organization}
-                    onChange={(e) =>
-                      setFormData({ ...formData, organization: e.target.value })
-                    }
-                  />
-                  {validationErrors.organization && (
-                    <span className="text-danger">
-                      {validationErrors.organization}
-                    </span>
-                  )}
-                </FormGroup>
-              </Col>
-              <Col md="6">
-                <FormGroup>
-                  <Label className="m-0">Serial Number</Label>
-                  <Input
-                    value={formData.serialNumber}
-                    onChange={(e) =>
-                      setFormData({ ...formData, serialNumber: e.target.value })
-                    }
-                  />
-                  {validationErrors.serialNumber && (
-                    <span className="text-danger">
-                      {validationErrors.serialNumber}
-                    </span>
-                  )}
-                </FormGroup>
-              </Col>
-              <Col md="6">
-                <FormGroup>
-                  <Label className="m-0">Machine Model</Label>
-                  <Input
-                    value={formData.machineModel}
-                    onChange={(e) =>
-                      setFormData({ ...formData, machineModel: e.target.value })
-                    }
-                  />
-                  {validationErrors.machineModel && (
-                    <span className="text-danger">
-                      {validationErrors.machineModel}
-                    </span>
-                  )}
-                </FormGroup>
-              </Col>
-              <Col md="6">
-                <FormGroup>
-                  <Label className="m-0">Model</Label>
-                  <Input
-                    type="select"
-                    value={formData.category}
-                    onChange={(e) =>
-                      setFormData({ ...formData, category: e.target.value })
-                    }
-                  >
-                    <option disabled selected value="">
-                      Select a model
-                    </option>
-                    <option>A</option>
-                    <option>B</option>
-                    <option>C</option>
-                    {/* Add options for category dropdown */}
-                  </Input>
-                  {validationErrors.category && (
-                    <span className="text-danger">
-                      {validationErrors.category}
-                    </span>
-                  )}
-                </FormGroup>
-              </Col>
-              <Col md="6">
-                <FormGroup>
-                  <Label className="m-0">Longitude</Label>
-                  <Input
-                    value={formData.longitude}
-                    onChange={(e) =>
-                      setFormData({ ...formData, longitude: e.target.value })
-                    }
-                  />
-                  {validationErrors.longitude && (
-                    <span className="text-danger">
-                      {validationErrors.longitude}
-                    </span>
-                  )}
-                </FormGroup>
-              </Col>
-              <Col md="6">
-                <FormGroup>
-                  <Label className="m-0">Brand</Label>
-                  <Input
-                    value={formData.brand}
-                    onChange={(e) =>
-                      setFormData({ ...formData, brand: e.target.value })
-                    }
-                  />
-                  {validationErrors.brand && (
-                    <span className="text-danger">
-                      {validationErrors.brand}
-                    </span>
-                  )}
-                </FormGroup>
-              </Col>
-              <Col md="6">
-                <FormGroup>
-                  <Label className="m-0">Category</Label>
-                  <Input
-                    type="select"
-                    value={formData.category}
-                    onChange={(e) =>
-                      setFormData({ ...formData, category: e.target.value })
-                    }
-                  >
-                    <option disabled selected value="">
-                      Select a category
-                    </option>
-                    <option>Mini excavator</option>
-                    <option>Small excavator</option>
-                    <option>Medium excavator</option>
-                    <option>Large excavator</option>
-                    <option>Header Machine</option>
-                    <option>Dump Truck</option>
-                    {/* Add options for category dropdown */}
-                  </Input>
-                  {validationErrors.category && (
-                    <span className="text-danger">
-                      {validationErrors.category}
-                    </span>
-                  )}
-                </FormGroup>
-              </Col>
-              <Col md="6">
-                <FormGroup>
-                  <Label className="m-0">States</Label>
-                  <Input
-                    type="select"
-                    value={formData.states}
-                    onChange={(e) =>
-                      setFormData({ ...formData, states: e.target.value })
-                    }
-                  >
-                    <option></option>
-
-                    <option>Atlanida</option>
-                    <option>Choluteca</option>
-                    <option>Colon</option>
-                    <option>Camayagua</option>
-                    <option>Copan</option>
-                    <option>Cortes</option>
-                    <option>EL Paraiso</option>
-                    <option>Francisco Morazan</option>
-                    <option>Gracias A Dios</option>
-                    <option>Intibuca</option>
-                    <option>Islas De La Bahia</option>
-                    <option>La Paz</option>
-                    <option>Lempira</option>
-                    <option>Ocotepeque</option>
-                    <option>Olancho</option>
-                    <option>Santa Barbara</option>
-                    <option>Vaile</option>
-
-                    {/* Add options for states dropdown */}
-                  </Input>
-                  {validationErrors.states && (
-                    <span className="text-danger">
-                      {validationErrors.states}
-                    </span>
-                  )}
-                </FormGroup>
-              </Col>
-              <Col md="6">
-                <FormGroup>
-                  <Label className="m-0">Department</Label>
-                  <Input
-                    type="select"
-                    value={formData.department}
-                    onChange={(e) =>
-                      setFormData({ ...formData, department: e.target.value })
-                    }
-                  >
-                    <option></option>
-
-                    <option>Department 1</option>
-                    <option>Department 2</option>
-                    <option>Department 3</option>
-                    <option>Department 4</option>
-                    {/* Add options for department dropdown */}
-                  </Input>
-                  {validationErrors.department && (
-                    <span className="text-danger">
-                      {validationErrors.department}
-                    </span>
-                  )}
-                </FormGroup>
-              </Col>
-              <Col md="6">
-                <FormGroup>
-                  <Label className="m-0">Interval</Label>
-                  <Input
-                    value={formData.interval}
-                    onChange={(e) =>
-                      setFormData({ ...formData, interval: e.target.value })
-                    }
-                  />
-                  {validationErrors.interval && (
-                    <span className="text-danger">
-                      {validationErrors.interval}
-                    </span>
-                  )}
-                </FormGroup>
-              </Col>
-              <Col md="6">
-                <FormGroup>
-                  <Label className="m-0">Last Maintenance</Label>
-                  <Input
-                    value={formData.lastMaintenance}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        lastMaintenance: e.target.value,
-                      })
-                    }
-                  />
-                  {validationErrors.lastMaintenance && (
-                    <span className="text-danger">
-                      {validationErrors.lastMaintenance}
-                    </span>
-                  )}
-                </FormGroup>
-              </Col>
-              <Col md="6">
-                <FormGroup>
-                  <Label className="m-0">Initial Maintenance</Label>
-                  <Input
-                    value={formData.initialMaintenance}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        initialMaintenance: e.target.value,
-                      })
-                    }
-                  />
-                  {validationErrors.initialMaintenance && (
-                    <span className="text-danger">
-                      {validationErrors.initialMaintenance}
-                    </span>
-                  )}
-                </FormGroup>
-              </Col>
-              <Col md="6">
-                <FormGroup>
-                  <Label className="m-0">Smart Device</Label>
-                  <Input
-                    type="select"
-                    value={formData.smartDevice}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        smartDevice: e.target.value === "Yes" ? true : false,
-                      })
-                    }
-                  >
-                    <option></option>
-
-                    <option>Yes</option>
-                    <option>No</option>
-                    {/* Add options for maintenance agreement dropdown */}
-                  </Input>
-                  {validationErrors.smartDevice && (
-                    <span className="text-danger">
-                      {validationErrors.smartDevice}
-                    </span>
-                  )}
-                </FormGroup>
-              </Col>
-            </Row>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              color="danger"
-              type="submit"
-              onClick={handleEditSubmit}
-              disabled={editEquipmentMutation.isLoading}
-            >
-              {editEquipmentMutation.isLoading ? <Spinner /> : "Add"}
-            </Button>{" "}
-            <Button
-              color="secondary"
-              onClick={() => {
-                treeToggle();
-                setValidationErrors({});
-
-                setFormData({
-                  machineName: "",
-                  organization: "",
-                  serialNumber: "",
-                  machineModel: "",
-                  manufacturer: "",
-                  brand: "",
-                  category: "",
-                  SmartDeviceRunningStatus: "",
-                  states: "",
-                  otherState: "",
-                  department: "",
-                  interval: "",
-                  initialMaintenance: "",
-                  maintenanceAgreement: "",
-                  smartDevice: false,
-                });
-              }}
-            >
-              Cancel
-            </Button>
-          </ModalFooter>
-        </Modal>
-        <Modal isOpen={addModal} toggle={addToggle}>
-          <ModalHeader className="pb-0">Add Device</ModalHeader>
+        <Modal isOpen={treeModal} toggle={treeToggle} size="lg">
+          <ModalHeader className="pb-0">Edit Device</ModalHeader>
           <ModalBody className="pb-0">
             <Row className="w-100">
-              <Col md="12">
+              {/* <Col md="12">
                 <FormGroup>
                   <Label className="m-0">Machine Name</Label>
                   <Input
@@ -761,7 +442,7 @@ const DeviceManagement = () => {
                     </span>
                   )}
                 </FormGroup>
-              </Col>
+              </Col> */}
               {/* <Col md="12">
                 <FormGroup>
                   <Label className="m-0">IMEI</Label>
@@ -810,12 +491,12 @@ const DeviceManagement = () => {
               </Col>
               <Col md="6">
                 <FormGroup>
-                  <Label className="m-0">Model</Label>
+                  <Label className="m-0">Machine Model</Label>
                   <Input
-                    type="select"
-                    value={formData.category}
+                    // type="select"
+                    value={formData.machineModel}
                     onChange={(e) =>
-                      setFormData({ ...formData, category: e.target.value })
+                      setFormData({ ...formData, machineModel: e.target.value })
                     }
                   >
                     <option disabled selected value="">
@@ -833,7 +514,7 @@ const DeviceManagement = () => {
                   )}
                 </FormGroup>
               </Col>
-              <Col md="6">
+              {/* <Col md="6">
                 <FormGroup>
                   <Label className="m-0">Longitude</Label>
                   <Input
@@ -848,44 +529,12 @@ const DeviceManagement = () => {
                     </span>
                   )}
                 </FormGroup>
-              </Col>
-              <Col md="6">
-                <FormGroup>
-                  <Label className="m-0">Latitude</Label>
-                  <Input
-                    value={formData.latitude}
-                    onChange={(e) =>
-                      setFormData({ ...formData, latitude: e.target.value })
-                    }
-                  />
-                  {validationErrors.latitude && (
-                    <span className="text-danger">
-                      {validationErrors.latitude}
-                    </span>
-                  )}
-                </FormGroup>
-              </Col>
-              <Col md="6">
-                <FormGroup>
-                  <Label className="m-0">Longitude</Label>
-                  <Input
-                    value={formData.longitude}
-                    onChange={(e) =>
-                      setFormData({ ...formData, longitude: e.target.value })
-                    }
-                  />
-                  {validationErrors.longitude && (
-                    <span className="text-danger">
-                      {validationErrors.longitude}
-                    </span>
-                  )}
-                </FormGroup>
-              </Col>
+              </Col> */}
               <Col md="6">
                 <FormGroup>
                   <Label className="m-0">Manufacturer</Label>
                   <Input
-                    type="select"
+                    // type="select"
                     value={formData.manufacturer}
                     onChange={(e) =>
                       setFormData({ ...formData, manufacturer: e.target.value })
@@ -994,7 +643,7 @@ const DeviceManagement = () => {
                   </FormGroup>
                 </Col>
               )}
-              <Col md="6">
+              {/* <Col md="6">
                 <FormGroup>
                   <Label className="m-0">Department</Label>
                   <Input
@@ -1010,7 +659,6 @@ const DeviceManagement = () => {
                     <option>Department 2</option>
                     <option>Department 3</option>
                     <option>Department 4</option>
-                    {/* Add options for department dropdown */}
                   </Input>
                   {validationErrors.department && (
                     <span className="text-danger">
@@ -1018,26 +666,29 @@ const DeviceManagement = () => {
                     </span>
                   )}
                 </FormGroup>
-              </Col>
+              </Col> */}
               <Col md="6">
                 <FormGroup>
-                  <Label className="m-0">Interval</Label>
+                  <Label className="m-0">Maintenance Interval</Label>
                   <Input
-                    value={formData.interval}
+                    value={formData.maintainanceInterval}
                     onChange={(e) =>
-                      setFormData({ ...formData, interval: e.target.value })
+                      setFormData({
+                        ...formData,
+                        maintainanceInterval: e.target.value,
+                      })
                     }
                   />
-                  {validationErrors.interval && (
+                  {validationErrors.maintainanceInterval && (
                     <span className="text-danger">
-                      {validationErrors.interval}
+                      {validationErrors.maintainanceInterval}
                     </span>
                   )}
                 </FormGroup>
               </Col>
               <Col md="6">
                 <FormGroup>
-                  <Label className="m-0">Last Maintenance</Label>
+                  <Label className="m-0">Last Maintenance (hours)</Label>
                   <Input
                     value={formData.lastMaintenance}
                     onChange={(e) =>
@@ -1046,6 +697,7 @@ const DeviceManagement = () => {
                         lastMaintenance: e.target.value,
                       })
                     }
+                    type="number"
                   />
                   {validationErrors.lastMaintenance && (
                     <span className="text-danger">
@@ -1056,7 +708,7 @@ const DeviceManagement = () => {
               </Col>
               <Col md="6">
                 <FormGroup>
-                  <Label className="m-0">Initial Maintenance</Label>
+                  <Label className="m-0">Initial Maintenance (hours)</Label>
                   <Input
                     value={formData.initialMaintenance}
                     onChange={(e) =>
@@ -1065,6 +717,7 @@ const DeviceManagement = () => {
                         initialMaintenance: e.target.value,
                       })
                     }
+                    type="number"
                   />
                   {validationErrors.initialMaintenance && (
                     <span className="text-danger">
@@ -1073,7 +726,7 @@ const DeviceManagement = () => {
                   )}
                 </FormGroup>
               </Col>
-              <Col md="6">
+              {/* <Col md="6">
                 <FormGroup>
                   <Label className="m-0">Smart Device</Label>
                   <Input
@@ -1090,7 +743,6 @@ const DeviceManagement = () => {
 
                     <option>Yes</option>
                     <option>No</option>
-                    {/* Add options for maintenance agreement dropdown */}
                   </Input>
                   {validationErrors.smartDevice && (
                     <span className="text-danger">
@@ -1098,7 +750,358 @@ const DeviceManagement = () => {
                     </span>
                   )}
                 </FormGroup>
+              </Col> */}
+            </Row>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              color="danger"
+              type="submit"
+              onClick={handleEditSubmit}
+              disabled={editEquipmentMutation.isLoading}
+            >
+              {editEquipmentMutation.isLoading ? <Spinner /> : "Save"}
+            </Button>{" "}
+            <Button
+              color="secondary"
+              onClick={() => {
+                treeToggle();
+                setValidationErrors({});
+                resetFormData();
+              }}
+            >
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
+        <Modal isOpen={addModal} toggle={addToggle} size="lg">
+          <ModalHeader className="pb-0">Add Device</ModalHeader>
+          <ModalBody className="pb-0">
+            <Row className="w-100">
+              {/* <Col md="12">
+                <FormGroup>
+                  <Label className="m-0">Machine Name</Label>
+                  <Input
+                    value={formData.machineName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, machineName: e.target.value })
+                    }
+                  />
+                  {validationErrors.machineName && (
+                    <span className="text-danger">
+                      {validationErrors.machineName}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col> */}
+              {/* <Col md="12">
+                <FormGroup>
+                  <Label className="m-0">IMEI</Label>
+                  <Input
+                    value={formData.imei}
+                    onChange={(e) =>
+                      setFormData({ ...formData, imei: e.target.value })
+                    }
+                  />
+                  {validationErrors.imei && (
+                    <span className="text-danger">{validationErrors.imei}</span>
+                  )}
+                </FormGroup>
+              </Col> */}
+              <Col md="12">
+                <FormGroup>
+                  <Label className="m-0">Organization</Label>
+                  <Input
+                    value={formData.organization}
+                    onChange={(e) =>
+                      setFormData({ ...formData, organization: e.target.value })
+                    }
+                  />
+                  {validationErrors.organization && (
+                    <span className="text-danger">
+                      {validationErrors.organization}
+                    </span>
+                  )}
+                </FormGroup>
               </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Serial Number</Label>
+                  <Input
+                    value={formData.serialNumber}
+                    onChange={(e) =>
+                      setFormData({ ...formData, serialNumber: e.target.value })
+                    }
+                  />
+                  {validationErrors.serialNumber && (
+                    <span className="text-danger">
+                      {validationErrors.serialNumber}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Macine Model</Label>
+                  <Input
+                    // type="select"
+                    value={formData.machineModel}
+                    onChange={(e) =>
+                      setFormData({ ...formData, machineModel: e.target.value })
+                    }
+                  >
+                    <option disabled selected value="">
+                      Select a model
+                    </option>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                    {/* Add options for category dropdown */}
+                  </Input>
+                  {validationErrors.category && (
+                    <span className="text-danger">
+                      {validationErrors.category}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              {/* <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Longitude</Label>
+                  <Input
+                    value={formData.longitude}
+                    onChange={(e) =>
+                      setFormData({ ...formData, longitude: e.target.value })
+                    }
+                  />
+                  {validationErrors.longitude && (
+                    <span className="text-danger">
+                      {validationErrors.longitude}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col> */}
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Manufacturer</Label>
+                  <Input
+                    // type="select"
+                    value={formData.manufacturer}
+                    onChange={(e) =>
+                      setFormData({ ...formData, manufacturer: e.target.value })
+                    }
+                  >
+                    <option disabled selected value="">
+                      Select a manufacturer
+                    </option>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                    {/* Add options for category dropdown */}
+                  </Input>
+                  {validationErrors.manufacturer && (
+                    <span className="text-danger">
+                      {validationErrors.manufacturer}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Category</Label>
+                  <Input
+                    type="select"
+                    value={formData.category}
+                    onChange={(e) =>
+                      setFormData({ ...formData, category: e.target.value })
+                    }
+                  >
+                    <option disabled selected value="">
+                      Select a category
+                    </option>
+                    <option>Mini excavator</option>
+                    <option>Small excavator</option>
+                    <option>Medium excavator</option>
+                    <option>Large excavator</option>
+                    <option>Header Machine</option>
+                    <option>Dump Truck</option>
+                    {/* Add options for category dropdown */}
+                  </Input>
+                  {validationErrors.category && (
+                    <span className="text-danger">
+                      {validationErrors.category}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">States</Label>
+                  <Input
+                    type="select"
+                    value={formData.states}
+                    onChange={(e) =>
+                      setFormData({ ...formData, states: e.target.value })
+                    }
+                    disabled={formData?.otherState !== ""}
+                  >
+                    <option disabled selected value="">
+                      Select a state
+                    </option>
+                    <option>Atlanida</option>
+                    <option>Choluteca</option>
+                    <option>Colon</option>
+                    <option>Camayagua</option>
+                    <option>Copan</option>
+                    <option>Cortes</option>
+                    <option>EL Paraiso</option>
+                    <option>Francisco Morazan</option>
+                    <option>Gracias A Dios</option>
+                    <option>Intibuca</option>
+                    <option>Islas De La Bahia</option>
+                    <option>La Paz</option>
+                    <option>Lempira</option>
+                    <option>Ocotepeque</option>
+                    <option>Olancho</option>
+                    <option>Santa Barbara</option>
+                    <option>Vaile</option>
+                    <option value="Other">Other</option>
+                    {/* Add options for states dropdown */}
+                  </Input>
+                  {validationErrors.states && (
+                    <span className="text-danger">
+                      {validationErrors.states}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              {formData?.states === "Other" && (
+                <Col md="6">
+                  <FormGroup>
+                    <Label className="m-0">Other State</Label>
+                    <Input
+                      type="text"
+                      value={formData.otherState}
+                      onChange={(e) =>
+                        setFormData({ ...formData, otherState: e.target.value })
+                      }
+                    />
+                    {validationErrors.otherState && (
+                      <span className="text-danger">
+                        {validationErrors.otherState}
+                      </span>
+                    )}
+                  </FormGroup>
+                </Col>
+              )}
+              {/* <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Department</Label>
+                  <Input
+                    type="select"
+                    value={formData.department}
+                    onChange={(e) =>
+                      setFormData({ ...formData, department: e.target.value })
+                    }
+                  >
+                    <option></option>
+
+                    <option>Department 1</option>
+                    <option>Department 2</option>
+                    <option>Department 3</option>
+                    <option>Department 4</option>
+                  </Input>
+                  {validationErrors.department && (
+                    <span className="text-danger">
+                      {validationErrors.department}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col> */}
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Maintenance Interval</Label>
+                  <Input
+                    value={formData.maintainanceInterval}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        maintainanceInterval: e.target.value,
+                      })
+                    }
+                  />
+                  {validationErrors.maintainanceInterval && (
+                    <span className="text-danger">
+                      {validationErrors.maintainanceInterval}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Last Maintenance (hours)</Label>
+                  <Input
+                    value={formData.lastMaintenance}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        lastMaintenance: e.target.value,
+                      })
+                    }
+                    type="number"
+                  />
+                  {validationErrors.lastMaintenance && (
+                    <span className="text-danger">
+                      {validationErrors.lastMaintenance}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Initial Maintenance (hours)</Label>
+                  <Input
+                    value={formData.initialMaintenance}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        initialMaintenance: e.target.value,
+                      })
+                    }
+                    type="number"
+                  />
+                  {validationErrors.initialMaintenance && (
+                    <span className="text-danger">
+                      {validationErrors.initialMaintenance}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              {/* <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Smart Device</Label>
+                  <Input
+                    type="select"
+                    value={formData.smartDevice}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        smartDevice: e.target.value === "Yes" ? true : false,
+                      })
+                    }
+                  >
+                    <option></option>
+
+                    <option>Yes</option>
+                    <option>No</option>
+                  </Input>
+                  {validationErrors.smartDevice && (
+                    <span className="text-danger">
+                      {validationErrors.smartDevice}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col> */}
             </Row>
           </ModalBody>
           <ModalFooter>
@@ -1115,24 +1118,61 @@ const DeviceManagement = () => {
               onClick={() => {
                 addToggle();
                 setValidationErrors({});
-
-                setFormData({
-                  machineName: "",
-                  organization: "",
-                  serialNumber: "",
-                  machineModel: "",
-                  manufacturer: "",
-                  brand: "",
-                  category: "",
-                  SmartDeviceRunningStatus: "",
-                  states: "",
-                  otherState: "",
-                  department: "",
-                  interval: "",
-                  initialMaintenance: "",
-                  maintenanceAgreement: "",
-                  smartDevice: false,
-                });
+                resetFormData();
+              }}
+            >
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
+        <Modal isOpen={addUserModal} toggle={addUserToggle}>
+          <ModalHeader className="pb-0">Add User</ModalHeader>
+          <ModalBody className="pb-0">
+            <Row className="w-100">
+              <Col>
+                <FormGroup>
+                  <Label className="m-0">User ID</Label>
+                  <Input
+                    value={userId}
+                    placeholder="user id e.g 87544678987654"
+                    onChange={(e) =>
+                     setUserId(e.target.value)
+                    }
+                  />
+                  {validationErrors.user && (
+                    <span className="text-danger">{validationErrors.user}</span>
+                  )}
+                </FormGroup>
+              </Col>
+            </Row>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              color="danger"
+              type="submit"
+              onClick={async () => {
+                try {
+                  await editEquipmentMutation.mutateAsync({
+                    id: id,
+                    formData: { user: userId },
+                  });
+                  toast.success("User added successfully")
+                  addUserToggle();
+                  setUserId("");
+                } catch (error) {
+                  toast.error(error?.message)
+                }
+              }}
+              disabled={editEquipmentMutation.isLoading}
+            >
+              {editEquipmentMutation.isLoading ? <Spinner /> : "Add"}
+            </Button>
+            <Button
+              color="secondary"
+              onClick={() => {
+                addUserToggle();
+                setValidationErrors({});
+                resetFormData();
               }}
             >
               Cancel

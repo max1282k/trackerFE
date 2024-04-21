@@ -47,7 +47,14 @@ const OrganizationManagement = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
-  const { isLoading, data: organizationData, error } = useGetAllOrganizations({limit: itemsPerPage,offset: (currentPage * itemsPerPage)});
+  const {
+    isLoading,
+    data: organizationData,
+    error,
+  } = useGetAllOrganizations({
+    limit: itemsPerPage,
+    offset: currentPage * itemsPerPage,
+  });
   const [deleteModal, setDeleteModal] = useState(false);
   const [addModal, setAddModal] = useState(false);
   const [id, setId] = useState();
@@ -87,7 +94,7 @@ const OrganizationManagement = () => {
               color="danger"
               onClick={() => {
                 setId(item._id);
-                deleteToggle()
+                deleteToggle();
               }}
             >
               <i className="fa-solid fa-trash"></i>
@@ -99,8 +106,7 @@ const OrganizationManagement = () => {
     setRows(tempArr);
   };
 
-  console.log(currentPage ,organizationData)
-
+  console.log(currentPage, organizationData);
 
   useEffect(() => {
     if (organizationData) {
@@ -108,7 +114,7 @@ const OrganizationManagement = () => {
       setTotalCount(organizationData?.totalCount);
     }
     if (error) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
   }, [organizationData, currentPage]);
   return (
@@ -119,7 +125,11 @@ const OrganizationManagement = () => {
         {/* Table */}
         <Row>
           <div className="col">
-            <Button className="d-block ml-auto mb-2" color='secondary' onClick={addToggle}>
+            <Button
+              className="d-block ml-auto mb-2"
+              color="secondary"
+              onClick={addToggle}
+            >
               Add Organization
             </Button>
 
@@ -139,7 +149,6 @@ const OrganizationManagement = () => {
                         // setSearchEntry(e.target.value);
                       }}
                     /> */}
-                 
                 </Col>
               </CardHeader>
               {isLoading ? (
@@ -147,7 +156,7 @@ const OrganizationManagement = () => {
               ) : (
                 <CustomTable columns={columns} rows={rows} />
               )}
-               <CardFooter className="py-4">
+              <CardFooter className="py-4">
                 <nav aria-label="...">
                   <Pagination
                     className="pagination justify-content-end mb-0"
@@ -157,7 +166,7 @@ const OrganizationManagement = () => {
                     <ReactPaginate
                       previousLabel={
                         <i
-                          class="previous fa fa-chevron-left"
+                          className="previous fa fa-chevron-left"
                           aria-hidden="true"
                         ></i>
                       }
@@ -216,10 +225,10 @@ const OrganizationManagement = () => {
                 try {
                   await createOrganizationMutation.mutateAsync(formData);
                   setFormData({ name: "", usersCount: "" });
-                  toast.success('Organization added successfully!!!')
+                  toast.success("Organization added successfully!!!");
                 } catch (error) {
-                  toast.error(error.message)
-                }               
+                  toast.error(error.message);
+                }
               }}
               className="w-100 mt-4"
             >
@@ -257,10 +266,9 @@ const OrganizationManagement = () => {
                     id: id,
                   });
                   deleteToggle();
-                  toast.success('Organization Deleted Successfully!!!')
-                  
+                  toast.success("Organization Deleted Successfully!!!");
                 } catch (error) {
-                  toast.error('Error deleting the organization')
+                  toast.error("Error deleting the organization");
                 }
               }}
               className="w-100 mt-4"
