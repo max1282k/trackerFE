@@ -13,10 +13,10 @@ import {
   InputGroup,
   Col,
   Spinner,
+  Label,
 } from "reactstrap";
 import { useAdminLogin } from "../../utils/auth.api";
-import logo from '../../assets/img/brand/logo.png'
-
+import logo from "../../assets/img/brand/logo.png";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const Login = () => {
     }
 
     try {
-      const admin  = await loginMutation.mutateAsync(loginData);
+      const admin = await loginMutation.mutateAsync(loginData);
       if (admin) {
         navigate("/admin/index");
         setLoginData({
@@ -62,7 +62,12 @@ const Login = () => {
       <Col lg="5" md="7">
         <Card className="bg-secondary shadow border-0">
           <CardBody className="px-lg-5 py-lg-5">
-            <img width={'150px'}  src={logo} className="mx-auto d-block mb-4"/>
+            <img
+              width={"150px"}
+              src={logo}
+              className="mx-auto d-block mb-4"
+              alt=""
+            />
             <div className="text-center text-muted mb-4">
               <small>Sign in with credentials</small>
             </div>
@@ -100,6 +105,11 @@ const Login = () => {
                     onChange={handleChange}
                   />
                 </InputGroup>
+              </FormGroup>
+              <FormGroup check >
+                <Label check style={{ cursor: "pointer" }}>
+                  <Input type="checkbox" /> Remember me
+                </Label>
               </FormGroup>
               <div className="text-center">
                 <Button

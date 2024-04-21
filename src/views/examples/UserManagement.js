@@ -1,22 +1,11 @@
 // reactstrap components
 import {
-  Badge,
   Card,
   CardHeader,
   CardFooter,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  Media,
   Pagination,
-  PaginationItem,
-  PaginationLink,
-  Progress,
-  Table,
   Container,
   Row,
-  UncontrolledTooltip,
   Button,
   Col,
   Label,
@@ -42,15 +31,24 @@ import { useGetUsersByOrganization } from "utils/auth.api";
 import ReactPaginate from "react-paginate";
 
 const UserManagement = () => {
-  const { data: organizationData } = useGetAllOrganizations({limit:1000, offset:0});
+  const { data: organizationData } = useGetAllOrganizations({
+    limit: 1000,
+    offset: 0,
+  });
   const createAdminMutation = useCreateAdmin();
   const deleteAdminMutation = useDeleteAdmin();
   const deleteAdminRegistrationMutation = useDeleteAdminRegisteration();
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
-  const { data, isLoading, error } = useGetAllUsers({limit: itemsPerPage,offset: (currentPage * itemsPerPage)});
-  const getUsersByOrganizationMutation = useGetUsersByOrganization({limit: itemsPerPage,offset: (currentPage * itemsPerPage)});
+  const { data, isLoading, error } = useGetAllUsers({
+    limit: itemsPerPage,
+    offset: currentPage * itemsPerPage,
+  });
+  const getUsersByOrganizationMutation = useGetUsersByOrganization({
+    limit: itemsPerPage,
+    offset: currentPage * itemsPerPage,
+  });
 
   const columns = ["id", "Name", "Email", "Organization", "Actions"];
   const [rows, setRows] = useState([]);
@@ -58,7 +56,7 @@ const UserManagement = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
   const [treeModal, setTreeModal] = useState(false);
-  const [userId, setUserId] = useState();
+  const [, setUserId] = useState();
   const [filterOrg, setFilterOrg] = useState();
   const [filteredUsers, setFiltredUsers] = useState();
 
@@ -99,18 +97,18 @@ const UserManagement = () => {
     }
   };
 
-  const handleFilterSubmit = async ()=> {
+  const handleFilterSubmit = async () => {
     try {
       const users = await getUsersByOrganizationMutation.mutateAsync({
         organization: filterOrg,
       });
       setFiltredUsers(users);
-      setFilterOrg('')
+      setFilterOrg("");
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error(error.message);
     }
-  }
+  };
 
   const reArrageData = (e) => {
     let tempArr = [];
@@ -158,6 +156,7 @@ const UserManagement = () => {
     if (error) {
       toast.error(error.message);
     }
+    // eslint-disable-next-line
   }, [data, currentPage, filteredUsers]);
   return (
     <>
@@ -209,7 +208,7 @@ const UserManagement = () => {
               )}
               <CardFooter className="py-4">
                 <nav aria-label="...">
-                <Pagination
+                  <Pagination
                     className="pagination justify-content-end mb-0"
                     listClassName="justify-content-end mb-0"
                     // style={paginationContainerStyles}
@@ -217,7 +216,7 @@ const UserManagement = () => {
                     <ReactPaginate
                       previousLabel={
                         <i
-                          class="previous fa fa-chevron-left"
+                          className="previous fa fa-chevron-left"
                           aria-hidden="true"
                         ></i>
                       }
@@ -359,8 +358,12 @@ const UserManagement = () => {
             </Row>
             <Row className="mt-4 w-100">
               <FormGroup className="w-100">
-                <Input type="select" className="p-2" onChange={(e)=>setFilterOrg(e.target.value)}>
-                <option>Select Organization</option>
+                <Input
+                  type="select"
+                  className="p-2"
+                  onChange={(e) => setFilterOrg(e.target.value)}
+                >
+                  <option>Select Organization</option>
                   {organizationData?.results?.map((org, index) => (
                     <option key={index}>{org?.name}</option>
                   ))}

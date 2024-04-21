@@ -281,7 +281,7 @@ const EquipmentTypes = () => {
                     <ReactPaginate
                       previousLabel={
                         <i
-                          class="previous fa fa-chevron-left"
+                          className="previous fa fa-chevron-left"
                           aria-hidden="true"
                         ></i>
                       }

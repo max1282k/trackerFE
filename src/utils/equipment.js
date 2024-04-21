@@ -48,14 +48,32 @@ export const useEditEquipment = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    async (payload) => {
+    async ({formData, id}) => {
       const response = await client(
-        `equipment/editEquipment/${payload?.imei}`,
+        `equipment/editEquipment/${id}`,
         {
           method: "POST",
-          data: payload,
+          data: formData,
         }
       );
+      return response;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["getEquipment"]);
+      },
+    }
+  );
+};
+
+export const useDeleteEquipment = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (payload) => {
+      const response = await client("equipment/deleteEquipment", {
+        method: "POST",
+        data: payload
+      });
       return response;
     },
     {

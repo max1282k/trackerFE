@@ -28,6 +28,7 @@ import DeviceManagement from "views/DeviceManagement";
 import AdminManagement from "views/examples/AdminManagement";
 import DeviceDetails from "components/DeviceDetails";
 import EquipmentTypes from "views/EquipmentTypes";
+import ConfigureDevice from "views/examples/ConfigureDevice";
 
 var routes = [
   {
@@ -93,6 +94,13 @@ var routes = [
     component: <EquipmentTypes />,
     layout: "/admin",
   },
+  // {
+  //   path: "/configure-device",
+  //   name: "Equipment Types",
+  //   icon: "fa fa-solid fa-toolbox text-danger",
+  //   component: <ConfigureDevice />,
+  //   layout: "/auth",
+  // },
   {
     path: "/login",
     name: "Login",
