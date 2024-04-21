@@ -1,6 +1,6 @@
 import { QueryCache } from "@tanstack/react-query";
-// const apiURL = "https://platinobe.adaptable.app";
-const apiURL = "http://localhost:5000";
+const apiURL = "https://platinobe.adaptable.app";
+//const apiURL = "http://localhost:5000";
 const queryCache = new QueryCache({
   onError: (error) => {
     console.log(error);
