@@ -330,11 +330,11 @@ const DeviceDetails = () => {
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">AI1</h5>
-                      <p className="text-dark text-sm">{data?.AI1}</p>
+                      <p className="text-dark text-sm">{`${((data?.AI1*32)/1024)?.toFixed(1)} V (raw: ${data?.AI1}) `}</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">AI2</h5>
-                      <p className="text-dark text-sm">{data?.AI2}</p>
+                      <p className="text-dark text-sm">{`${((data?.AI2)/1024)?.toFixed(1)} V (raw: ${data?.AI2}) `}</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Last Updated</h5>
