@@ -28,12 +28,10 @@ import { useGetEquipment } from "utils/equipment";
 import { useCreateEquipment } from "utils/equipment";
 import { useEditEquipment } from "utils/equipment";
 import { useDeleteEquipment } from "utils/equipment";
-import { useQueryClient } from "@tanstack/react-query";
 
 const DeviceManagement = () => {
   // const organizationData = [];
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const deleteDeviceMutation = useDeleteEquipment();
   const columns = [
     "Serial Number",
@@ -70,7 +68,9 @@ const DeviceManagement = () => {
     maintenanceAgreement: "",
     // latitude: "",
     // longitude: "",
-    smartDevice: false,
+    smartDevice: "",
+    maintenanceContract: "",
+
   });
   const [validationErrors, setValidationErrors] = useState({});
   const [rows, setRows] = useState([]);
@@ -111,8 +111,8 @@ const DeviceManagement = () => {
         initialMaintenance: item?.initialMaintenance,
         regularMaintenance: item?.maintainanceInterval,
         lastMaintenance: item?.lastMaintenance,
-        maintenanceContract: false ? "Yes" : "No",
-        smartDevice: item?.smartDevice ? "Yes" : "No",
+        maintenanceContract: item?.maintenanceContract,
+        smartDevice: item?.smartDevice,
         // operationalHours: 200,
         // currentStatus: "active",
         // latitude: item?.latitude,
@@ -122,12 +122,12 @@ const DeviceManagement = () => {
         // rpm: item?.rpm,
         actions: (
           <>
-           <Button
+            <Button
               size="sm"
               color="secondary"
               onClick={() => {
-                sessionStorage.setItem("deviceId", item._id)
-                window.open(`/configure-device`)
+                sessionStorage.setItem("deviceId", item._id);
+                window.open(`/configure-device`);
               }}
             >
               <i className="fa-solid fa-circle-plus"></i>
@@ -185,7 +185,8 @@ const DeviceManagement = () => {
                   maintenanceAgreement: item?.maintenanceAgreement,
                   // latitude: item?.latitude,
                   // longitude: item?.longitude,
-                  smartDevice: item?.smartDevice ? true : false,
+                  smartDevice: item?.smartDevice,
+                  maintenanceContract: item?.maintenanceContract
                 });
                 treeToggle();
               }}
@@ -265,7 +266,8 @@ const DeviceManagement = () => {
       maintenanceAgreement: "",
       // latitude: "",
       // longitude: "",
-      smartDevice: false,
+      smartDevice: "",
+      maintenanceContract: "",
       user: "",
     });
   };
@@ -557,6 +559,54 @@ const DeviceManagement = () => {
               </Col>
               <Col md="6">
                 <FormGroup>
+                  <Label className="m-0">Smart Device</Label>
+                  <Input
+                    type="select"
+                    value={formData.smartDevice}
+                    onChange={(e) =>
+                      setFormData({ ...formData, smartDevice: e.target.value })
+                    }
+                  >
+                    <option disabled selected value="">
+                      Select an option
+                    </option>
+                    <option>Yes</option>
+                    <option>No</option>
+                    {/* Add options for category dropdown */}
+                  </Input>
+                  {validationErrors.smartDevice && (
+                    <span className="text-danger">
+                      {validationErrors.smartDevice}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Maintenance Contract</Label>
+                  <Input
+                    type="select"
+                    value={formData.maintenanceContract}
+                    onChange={(e) =>
+                      setFormData({ ...formData, maintenanceContract: e.target.value })
+                    }
+                  >
+                    <option disabled selected value="">
+                      Select an option
+                    </option>
+                    <option>Yes</option>
+                    <option>No</option>
+                    {/* Add options for category dropdown */}
+                  </Input>
+                  {validationErrors.maintenanceContract && (
+                    <span className="text-danger">
+                      {validationErrors.maintenanceContract}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
                   <Label className="m-0">Category</Label>
                   <Input
                     type="select"
@@ -669,9 +719,12 @@ const DeviceManagement = () => {
               </Col> */}
               <Col md="6">
                 <FormGroup>
-                  <Label className="m-0">Maintenance Interval</Label>
+                  <Label className="m-0">
+                    Maintenance Interval Regular (hours)
+                  </Label>
                   <Input
                     value={formData.maintainanceInterval}
+                    type="number"
                     onChange={(e) =>
                       setFormData({
                         ...formData,
@@ -708,7 +761,9 @@ const DeviceManagement = () => {
               </Col>
               <Col md="6">
                 <FormGroup>
-                  <Label className="m-0">Initial Maintenance (hours)</Label>
+                  <Label className="m-0">
+                    Maintenance Interval Initial (hours)
+                  </Label>
                   <Input
                     value={formData.initialMaintenance}
                     onChange={(e) =>
@@ -844,7 +899,7 @@ const DeviceManagement = () => {
                 <FormGroup>
                   <Label className="m-0">Macine Model</Label>
                   <Input
-                    // type="select"
+                    type="select"
                     value={formData.machineModel}
                     onChange={(e) =>
                       setFormData({ ...formData, machineModel: e.target.value })
@@ -902,6 +957,54 @@ const DeviceManagement = () => {
                   {validationErrors.manufacturer && (
                     <span className="text-danger">
                       {validationErrors.manufacturer}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Smart Device</Label>
+                  <Input
+                    type="select"
+                    value={formData.smartDevice}
+                    onChange={(e) =>
+                      setFormData({ ...formData, smartDevice: e.target.value })
+                    }
+                  >
+                    <option disabled selected value="">
+                      Select an option
+                    </option>
+                    <option>Yes</option>
+                    <option>No</option>
+                    {/* Add options for category dropdown */}
+                  </Input>
+                  {validationErrors.smartDevice && (
+                    <span className="text-danger">
+                      {validationErrors.smartDevice}
+                    </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label className="m-0">Maintenance Contract</Label>
+                  <Input
+                    type="select"
+                    value={formData.maintenanceContract}
+                    onChange={(e) =>
+                      setFormData({ ...formData, maintenanceContract: e.target.value })
+                    }
+                  >
+                    <option disabled selected value="">
+                      Select an option
+                    </option>
+                    <option>Yes</option>
+                    <option>No</option>
+                    {/* Add options for category dropdown */}
+                  </Input>
+                  {validationErrors.maintenanceContract && (
+                    <span className="text-danger">
+                      {validationErrors.maintenanceContract}
                     </span>
                   )}
                 </FormGroup>
@@ -1020,9 +1123,12 @@ const DeviceManagement = () => {
               </Col> */}
               <Col md="6">
                 <FormGroup>
-                  <Label className="m-0">Maintenance Interval</Label>
+                  <Label className="m-0">
+                    Maintenance Interval Regular (hours)
+                  </Label>
                   <Input
                     value={formData.maintainanceInterval}
+                    type="number"
                     onChange={(e) =>
                       setFormData({
                         ...formData,
@@ -1059,7 +1165,9 @@ const DeviceManagement = () => {
               </Col>
               <Col md="6">
                 <FormGroup>
-                  <Label className="m-0">Initial Maintenance (hours)</Label>
+                  <Label className="m-0">
+                    Maintenance Interval Initial (hours)
+                  </Label>
                   <Input
                     value={formData.initialMaintenance}
                     onChange={(e) =>
@@ -1135,9 +1243,7 @@ const DeviceManagement = () => {
                   <Input
                     value={userId}
                     placeholder="user id e.g 87544678987654"
-                    onChange={(e) =>
-                     setUserId(e.target.value)
-                    }
+                    onChange={(e) => setUserId(e.target.value)}
                   />
                   {validationErrors.user && (
                     <span className="text-danger">{validationErrors.user}</span>
@@ -1156,11 +1262,11 @@ const DeviceManagement = () => {
                     id: id,
                     formData: { user: userId },
                   });
-                  toast.success("User added successfully")
+                  toast.success("User added successfully");
                   addUserToggle();
                   setUserId("");
                 } catch (error) {
-                  toast.error(error?.message)
+                  toast.error(error?.message);
                 }
               }}
               disabled={editEquipmentMutation.isLoading}

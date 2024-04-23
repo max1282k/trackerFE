@@ -17,6 +17,7 @@ import {
 import { DeviceMap } from "./Map";
 import { useLocation } from "react-router-dom";
 import { useGetEquipmentById } from "utils/equipment";
+import { REGISTRATION } from "db";
 
 const DeviceDetails = () => {
   const location = useLocation();
@@ -65,219 +66,34 @@ const DeviceDetails = () => {
                     </Button>
                   </Row>
                   <Row className="d-flex flex-column border-bottom w-100 pr-4 mt-4">
-                    <h2 className="m-0 p-0 mb-1">Last Failure</h2>
+                    <h2 className="m-0 p-0 mb-1">Registration</h2>
                   </Row>
                   <Row>
-                    <Col className="p-0 mt-2" xs="6" md="3">
-                      <h5 className="m-0">State:</h5>
-                      <p className="text-dark text-sm">
-                        {data?.state || "Operational"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-2" xs="6" md="3">
-                      <h5 className="m-0">Type:</h5>
-                      <p className="text-dark text-sm">
-                        {data?.type || "Without folia"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-2" xs="6" md="3">
-                      <h5 className="m-0">Description:</h5>
-                      <p className="text-dark text-sm">
-                        {data?.description || "No fuss"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-2" xs="6" md="3">
-                      <h5 className="m-0">Date:</h5>
-                      <p className="text-dark text-sm">
-                        {data?.date || "May 07, 2023"}
-                      </p>
-                    </Col>
+                    {REGISTRATION.map(({ title, endPoint }) => (
+                      <Col key={endPoint} className="p-0 mt-2" xs="6" md="4">
+                        <h5 className="m-0">{title}</h5>
+                        <p className="text-dark text-sm">
+                          {data?.[endPoint] || "No value"}
+                        </p>
+                      </Col>
+                    ))}
                   </Row>
                   <Row className="d-flex flex-column border-bottom w-100 pr-4 mt-4">
-                    <h2 className="m-0 p-0 mb-1">Last Maintenance</h2>
+                    <h2 className="m-0 p-0 mb-1">Status</h2>
                   </Row>
                   <Row>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Hour meter:</h5>
-                      <p className="text-dark text-sm">
-                        {data?.hourMeter || "1600"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Made By:</h5>
-                      <p className="text-dark text-sm">
-                        {data?.madeBy || "N / A"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Date:</h5>
-                      <p className="text-dark text-sm">
-                        {data?.date || "July 12, 2023"}
-                      </p>
-                    </Col>
-
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Vehicles/Equipment:</h5>
-                      <p className="text-dark text-sm">
-                        {data?.vehicle || "car"}
-                      </p>
-                    </Col>
-                  </Row>
-                  <Row className="d-flex flex-column border-bottom w-100 pr-4 mt-4"></Row>
-                  <Row>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Team Name Ivon</h5>
-                      <p className="text-dark text-sm">Polanco HIZDSN44HF6</p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Country</h5>
-                      <p className="text-dark text-sm">
-                        {data?.country || "Houndurus"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Department:</h5>
-                      <p className="text-dark text-sm">
-                        {data?.department || "Copan"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Category</h5>
-                      <p className="text-dark text-sm">
-                        {data?.category || "Dump Trucks"}
-                      </p>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Hour meter:</h5>
-                      <p className="text-dark text-sm">
-                        {data?.hourMeter || "1600"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Brand</h5>
-                      <p className="text-dark text-sm">
-                        {data?.brand || "SANY"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Model</h5>
-                      <p className="text-dark text-sm">
-                        {data?.model || "SY2130C-BR"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Status</h5>
-                      <p className="text-dark text-sm">
-                        {data?.status || "Active"}
-                      </p>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Mileage</h5>
-                      <p className="text-dark text-sm">
-                        {data?.mileage || "0"}
-                      </p>
-                    </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Latitude</h5>
                       <p className="text-dark text-sm">
-                        {data?.latitude || "14.6536"}
+                        {data?.latitude || "-"}
                       </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">longitude</h5>
+                      <h5 className="m-0">Longitude</h5>
                       <p className="text-dark text-sm">
-                        {data?.longitude || "88.8345"}
+                        {data?.longitude || "-"}
                       </p>
                     </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Fuel Level</h5>
-                      <p className="text-dark text-sm">
-                        {data?.fuelLevel || "44%"}
-                      </p>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Total Consumption</h5>
-                      <p className="text-dark text-sm">
-                        {data?.totalConsumption || "0/-"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Average Consumption</h5>
-                      <p className="text-dark text-sm">
-                        {data?.averageConsumption || "0"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Actual Consumption</h5>
-                      <p className="text-dark text-sm">
-                        {data?.actualConsumption || "0"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Registered Date</h5>
-                      <p className="text-dark text-sm">
-                        {data?.registeredDate || "July 12, 2023"}
-                      </p>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Smart Device Operative</h5>
-                      <p className="text-dark text-sm">
-                        {data?.smartDevice ? "Yes" : "No" || "Yes"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Ult Operation</h5>
-                      <p className="text-dark text-sm">
-                        {data?.ultOperation || "Status On"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Ult Update</h5>
-                      <p className="text-dark text-sm">July 12, 2023</p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Maintenance Performed</h5>
-                      <p className="text-dark text-sm">
-                        {data?.maintenancePerformed || "No"}
-                      </p>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Maintenance Interval</h5>
-                      <p className="text-dark text-sm">
-                        {data?.maintenanceInterval || "400 hours"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Maintenance Start</h5>
-                      <p className="text-dark text-sm">
-                        {data?.maintenanceStart || "1200"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Team With Smart Device</h5>
-                      <p className="text-dark text-sm">
-                        {data?.teamWithSmartDevice || "Yes"}
-                      </p>
-                    </Col>
-                    <Col className="p-0 mt-1" xs="6" md="3">
-                      <h5 className="m-0">Maintenance Agreement:</h5>
-                      <p className="text-dark text-sm">
-                        {data?.maintenanceAgreement || "Yes"}
-                      </p>
-                    </Col>
-                  </Row>
-                  <Row className="d-flex flex-column border-bottom w-100 pr-4 mt-4"></Row>
-                  <Row>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Speed</h5>
                       <p className="text-dark text-sm">{data?.speed}</p>
@@ -300,6 +116,12 @@ const DeviceDetails = () => {
                       <h5 className="m-0">Hours of Operation</h5>
                       <p className="text-dark text-sm">
                         {data?.hoursOfOperation}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="3">
+                      <h5 className="m-0">Fuel Level</h5>
+                      <p className="text-dark text-sm">
+                        {`${data?.fuelLevel}%` || "0%"}
                       </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
@@ -330,11 +152,16 @@ const DeviceDetails = () => {
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">AI1</h5>
-                      <p className="text-dark text-sm">{`${((data?.AI1*32)/1024)?.toFixed(1)} V (raw: ${data?.AI1}) `}</p>
+                      <p className="text-dark text-sm">{`${(
+                        (data?.AI1 * 32) /
+                        4095
+                      )?.toFixed(1)} V (raw: ${data?.AI1}) `}</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">AI2</h5>
-                      <p className="text-dark text-sm">{`${((data?.AI2)/1024)?.toFixed(1)} V (raw: ${data?.AI2}) `}</p>
+                      <p className="text-dark text-sm">{`${(
+                        data?.AI2 / 4095
+                      )?.toFixed(1)} V (raw: ${data?.AI2}) `}</p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="3">
                       <h5 className="m-0">Last Updated</h5>
@@ -393,6 +220,64 @@ const DeviceDetails = () => {
                       </p>
                     </Col>
                   </Row>
+                  <Row className="d-flex flex-column border-bottom w-100 pr-4 mt-4">
+                    <h2 className="m-0 p-0 mb-1">Failure</h2>
+                  </Row>
+                  <Row>
+                    <Col className="p-0 mt-2" xs="6" md="3">
+                      <h5 className="m-0">State:</h5>
+                      <p className="text-dark text-sm">
+                        {data?.state || "Operational"}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-2" xs="6" md="3">
+                      <h5 className="m-0">Parameter Group:</h5>
+                      <p className="text-dark text-sm">
+                        {data?.parameterGroup || "Without folia"}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-2" xs="6" md="3">
+                      <h5 className="m-0">Suspect Parameter:</h5>
+                      <p className="text-dark text-sm">
+                        {data?.suspectParameter || "No fuss"}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-2" xs="6" md="3">
+                      <h5 className="m-0">Date:</h5>
+                      <p className="text-dark text-sm">
+                        {data?.date || "May 07, 2023"}
+                      </p>
+                    </Col>
+                  </Row>
+                  <Row className="d-flex flex-column border-bottom w-100 pr-4 mt-4">
+                    <h2 className="m-0 p-0 mb-1">Maintenance</h2>
+                  </Row>
+                  <Row>
+                    <Col className="p-0 mt-1" xs="6" md="4">
+                      <h5 className="m-0">Hour meter:</h5>
+                      <p className="text-dark text-sm">
+                        {data?.hourMeter || "1600"}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="4">
+                      <h5 className="m-0">Made By:</h5>
+                      <p className="text-dark text-sm">
+                        {data?.madeBy || "N / A"}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="4">
+                      <h5 className="m-0">Date:</h5>
+                      <p className="text-dark text-sm">
+                        {data?.date || "July 12, 2023"}
+                      </p>
+                    </Col>
+                    <Col className="p-0 mt-1" xs="6" md="4">
+                      <h5 className="m-0">Hours Since Last Maintainace:</h5>
+                      <p className="text-dark text-sm">
+                        {"30h"}
+                      </p>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
             </Card>
@@ -404,8 +289,24 @@ const DeviceDetails = () => {
             <Row className="w-100">
               <Col md="12">
                 <FormGroup>
-                  <Label className="m-0">Condition</Label>
-                  <Input placeholder="condition" />
+                  <Label className="m-0">Date</Label>
+                  <Input placeholder="date" type="datetime-local" />
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row className="w-100">
+              <Col md="12">
+                <FormGroup>
+                  <Label className="m-0">Made By</Label>
+                  <Input placeholder="made by" />
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row className="w-100">
+              <Col md="12">
+                <FormGroup>
+                  <Label className="m-0">Hour Meter Reading (init)</Label>
+                  <Input placeholder="Hour Meter Reading (init)" />
                 </FormGroup>
               </Col>
             </Row>

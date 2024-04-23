@@ -12,7 +12,7 @@ export const DeviceMap = ({ h, latitude, longitude, imei, isLoading }) => {
   ]);
 
   // State to store the current zoom level
-  const [zoom, setZoom] = useState(7);
+  const [zoom, setZoom] = useState(15);
 
   useEffect(() => {
     setLat(latitude);
@@ -70,22 +70,29 @@ export const DeviceMap = ({ h, latitude, longitude, imei, isLoading }) => {
   );
 };
 
-
 export const DashboardMap = ({ h, data }) => {
   const navigate = useNavigate();
   const [hoveredMarker, setHoveredMarker] = useState(null);
   const [zoom, setZoom] = useState(7); // State to store the current zoom level
 
-  const markerPositions = data.map((item) => ({
+  const markerPositions = data
+  .filter(item => typeof item.latitude === 'number' && typeof item.longitude === 'number')
+  .map((item) => ({
     id: item._id,
     position: [Number(item.latitude), Number(item.longitude)],
     info: `imei: ${item.imei}`, // Assuming there's an 'imei' property in the 'data' items
   }));
 
-  const averagePosition = markerPositions.reduce(
-    (acc, curr) => [acc[0] + curr.position[0], acc[1] + curr.position[1]],
-    [0, 0]
-  );
+const totalPositions = markerPositions.length;
+
+const sumPosition = markerPositions.reduce(
+  (acc, curr) => [acc[0] + curr.position[0], acc[1] + curr.position[1]],
+  [0, 0]
+);
+
+const averagePosition = [sumPosition[0] / totalPositions, sumPosition[1] / totalPositions];
+
+console.log(averagePosition);
 
   const center = [
     averagePosition[0] / markerPositions.length,

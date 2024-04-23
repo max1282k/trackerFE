@@ -15,15 +15,13 @@ const FaultyTypesChart = () => {
       "Type 9",
     ],
     colors: [
-      "#008000",
-      "#FF0000",
-      "#FFFF00",
-      "#FFA500",
-      "#00FFFF",
-      "#FFC0CB",
-      "#800080",
-      "#FFD700",
-      "#0000FF",
+      "#F5365C",
+      "#FF847C", // Light red
+      "#FFB997", // Light salmon
+      "#FFDAC1", // Light peach
+      "#9CFFCE", // Light aqua
+      "#6EE7B7", // Aqua
+      "#3B9979", // Dark aqua
     ],
     legend: {
       show: true,

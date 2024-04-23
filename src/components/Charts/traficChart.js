@@ -1,6 +1,6 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-import { Card, Container } from "reactstrap";
+import { Card } from "reactstrap";
 
 const TrafficChart = () => {
   const options = {
@@ -38,6 +38,15 @@ const TrafficChart = () => {
         'Finland'
       ]
       ,
+      colors: [
+        "#F5365C",
+        "#FF847C", // Light red
+        "#FFB997", // Light salmon
+        "#FFDAC1", // Light peach
+        "#9CFFCE", // Light aqua
+        "#6EE7B7", // Aqua
+        "#3B9979", // Dark aqua
+      ],
     xaxis: {
       type: 'text',
     },

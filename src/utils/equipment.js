@@ -21,7 +21,7 @@ export const useGetEquipmentById = (id) =>
       return response;
     },
     {
-      refetchInterval: 1000,
+      refetchInterval: 30000,
     }
   );
 

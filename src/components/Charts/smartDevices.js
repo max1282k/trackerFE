@@ -20,7 +20,15 @@ const SmartDevices = () => {
     xaxis: {
       categories: ["Smart Devices", "Operational", "In Operational"],
     },
-    colors: ["#008000", "#FF0000", "#FFFF00"],
+    colors: [
+      "#F5365C",
+      "#FF847C", // Light red
+      "#FFB997", // Light salmon
+      "#FFDAC1", // Light peach
+      "#9CFFCE", // Light aqua
+      "#6EE7B7", // Aqua
+      "#3B9979", // Dark aqua
+    ],
     legend: {
       position: "top",
     },
