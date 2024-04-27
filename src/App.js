@@ -22,11 +22,21 @@ const App = () => {
   const { data: path } = useQuery(["path"], () => localStorage.getItem("path"));
 
   const verify = async () => {
-    const verifiedToken = await verifyTokenMutation.mutateAsync({
-      token: token?.slice(7),
-    });
-    if (verifiedToken?.decodedToken) {
-      setIsVerified(true);
+    try {
+      let verifiedToken;
+      if (token) {
+        verifiedToken = await verifyTokenMutation.mutateAsync({
+          token: token?.slice(7),
+        });
+      }
+      if (verifiedToken?.decodedToken) {
+        setIsVerified(true);
+      }
+      if (verifiedToken?.message === "Invalid token") {
+        localStorage?.removeItem("path");
+      }
+    } catch (error) {
+      console.log(error?.message);
     }
   };
 
