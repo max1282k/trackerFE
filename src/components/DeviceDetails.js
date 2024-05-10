@@ -245,7 +245,7 @@ const DeviceDetails = () => {
                     <Col className="p-0 mt-2" xs="6" md="3">
                       <h5 className="m-0">Date</h5>
                       <p className="text-dark text-sm">
-                        {data?.date || "May 07, 2023"}
+                        {data?.stateUpdatedAt || "N/A"}
                       </p>
                     </Col>
                   </Row>
