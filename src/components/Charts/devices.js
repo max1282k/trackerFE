@@ -1,5 +1,7 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
+import { Spinner } from "reactstrap";
+import { useGetEquipmentCounts } from "utils/equipment";
 
 const DeviceChart = () => {
   const chartOptions = {
@@ -19,16 +21,26 @@ const DeviceChart = () => {
     },
   };
 
-  const chartSeries = [2344, 402, 340]; // Static data for three data points types of faults
+  const { data, isLoading, isSuccess } = useGetEquipmentCounts();
+
+  const chartSeries = isLoading
+    ? [0, 0, 0]
+    : [data?.normalCount, data?.faultyCount, data?.operationalCount];
 
   return (
     <div>
-      <ReactApexChart
-        options={chartOptions}
-        series={chartSeries}
-        type="pie"
-        width="400"
-      />
+      {isLoading ? (
+        <Spinner className="ml-3 my-3" />
+      ) : isSuccess ? (
+        <ReactApexChart
+          options={chartOptions}
+          series={chartSeries}
+          type="pie"
+          width="400"
+        />
+      ) : (
+        <p className="my-3 text-center">Data not available</p>
+      )}
     </div>
   );
 };

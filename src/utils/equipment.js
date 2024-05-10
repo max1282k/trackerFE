@@ -48,14 +48,11 @@ export const useEditEquipment = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    async ({formData, id}) => {
-      const response = await client(
-        `equipment/editEquipment/${id}`,
-        {
-          method: "POST",
-          data: formData,
-        }
-      );
+    async ({ formData, id }) => {
+      const response = await client(`equipment/editEquipment/${id}`, {
+        method: "POST",
+        data: formData,
+      });
       return response;
     },
     {
@@ -72,7 +69,7 @@ export const useDeleteEquipment = () => {
     async (payload) => {
       const response = await client("equipment/deleteEquipment", {
         method: "POST",
-        data: payload
+        data: payload,
       });
       return response;
     },
@@ -83,3 +80,9 @@ export const useDeleteEquipment = () => {
     }
   );
 };
+
+export const useGetEquipmentCounts = () =>
+  useQuery(["getEquipmentCounts"], async () => {
+    const response = await client(`equipment/getEquipmentCounts`);
+    return response;
+  });
