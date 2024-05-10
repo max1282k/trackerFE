@@ -225,25 +225,25 @@ const DeviceDetails = () => {
                   </Row>
                   <Row>
                     <Col className="p-0 mt-2" xs="6" md="3">
-                      <h5 className="m-0">State:</h5>
+                      <h5 className="m-0">State</h5>
                       <p className="text-dark text-sm">
                         {data?.state || "Operational"}
                       </p>
                     </Col>
                     <Col className="p-0 mt-2" xs="6" md="3">
-                      <h5 className="m-0">Parameter Group:</h5>
+                      <h5 className="m-0">Parameter Group</h5>
                       <p className="text-dark text-sm">
                         {data?.parameterGroup || "Without folia"}
                       </p>
                     </Col>
                     <Col className="p-0 mt-2" xs="6" md="3">
-                      <h5 className="m-0">Suspect Parameter:</h5>
+                      <h5 className="m-0">Suspect Parameter</h5>
                       <p className="text-dark text-sm">
                         {data?.suspectParameter || "No fuss"}
                       </p>
                     </Col>
                     <Col className="p-0 mt-2" xs="6" md="3">
-                      <h5 className="m-0">Date:</h5>
+                      <h5 className="m-0">Date</h5>
                       <p className="text-dark text-sm">
                         {data?.date || "May 07, 2023"}
                       </p>
@@ -254,19 +254,19 @@ const DeviceDetails = () => {
                   </Row>
                   <Row>
                     <Col className="p-0 mt-1" xs="6" md="4">
-                      <h5 className="m-0">Hour meter:</h5>
+                      <h5 className="m-0">Hour meter</h5>
                       <p className="text-dark text-sm">
                         {data?.hourMeter || "1600"}
                       </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="4">
-                      <h5 className="m-0">Made By:</h5>
+                      <h5 className="m-0">Made By</h5>
                       <p className="text-dark text-sm">
                         {data?.madeBy || "N / A"}
                       </p>
                     </Col>
                     <Col className="p-0 mt-1" xs="6" md="4">
-                      <h5 className="m-0">Date:</h5>
+                      <h5 className="m-0">Date</h5>
                       <p className="text-dark text-sm">
                         {data?.date || "July 12, 2023"}
                       </p>
@@ -305,8 +305,8 @@ const DeviceDetails = () => {
             <Row className="w-100">
               <Col md="12">
                 <FormGroup>
-                  <Label className="m-0">Hour Meter Reading (init)</Label>
-                  <Input placeholder="Hour Meter Reading (init)" />
+                  <Label className="m-0">Hour Meter Reading</Label>
+                  <Input placeholder="Hour Meter Reading" />
                 </FormGroup>
               </Col>
             </Row>

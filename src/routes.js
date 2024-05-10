@@ -87,13 +87,13 @@ var routes = [
     component: <DeviceDetails />,
     layout: "/admin",
   },
-  {
-    path: "/equipment-types",
-    name: "Equipment Types",
-    icon: "fa fa-solid fa-toolbox text-danger",
-    component: <EquipmentTypes />,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/equipment-types",
+  //   name: "Equipment Types",
+  //   icon: "fa fa-solid fa-toolbox text-danger",
+  //   component: <EquipmentTypes />,
+  //   layout: "/admin",
+  // },
   // {
   //   path: "/configure-device",
   //   name: "Equipment Types",
