@@ -17,18 +17,16 @@
 */
 import Index from "views/Index.js";
 import Profile from "views/examples/Profile.js";
-import Maps from "views/examples/Maps.js";
 import Register from "views/examples/Register.js";
 import Login from "views/examples/Login.js";
-import Icons from "views/examples/Icons.js";
 import UserManagement from "views/examples/UserManagement";
 import OrganizationManagement from "views/examples/OrganizationManagement";
 import OrganizationDetail from "components/OrganizationDetail";
 import DeviceManagement from "views/DeviceManagement";
 import AdminManagement from "views/examples/AdminManagement";
 import DeviceDetails from "components/DeviceDetails";
-import EquipmentTypes from "views/EquipmentTypes";
-import ConfigureDevice from "views/examples/ConfigureDevice";
+// import EquipmentTypes from "views/EquipmentTypes";
+// import ConfigureDevice from "views/examples/ConfigureDevice";
 
 var routes = [
   {
