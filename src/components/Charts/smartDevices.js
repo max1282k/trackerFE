@@ -18,7 +18,7 @@ const SmartDevices = () => {
       enabled: false,
     },
     xaxis: {
-      categories: ["Smart Devices", "Operational", "In Operational"],
+      categories: ["Smart Devices", "Operational", "In Operation"],
     },
     colors: [
       "#F5365C",
